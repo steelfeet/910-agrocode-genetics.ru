@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест Chart.js</title>
+    <script src="/static/js/chart.min.js"></script>
+</head>
+<body>
+    <h1>Тест Chart.js</h1>
+    <canvas id="testChart" width="400" height="200"></canvas>
+    
+    <script>
+        console.log('Chart.js загружен:', typeof Chart);
+        
+        if (typeof Chart !== 'undefined') {
+            console.log('Chart.js доступен!');
+            
+            const ctx = document.getElementById('testChart').getContext('2d');
+            const testChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'],
+                    datasets: [{
+                        label: 'Тестовые данные',
+                        data: [12, 19, 3, 5, 2],
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Простой тест Chart.js'
+                        }
+                    }
+                }
+            });
+            
+            console.log('График создан:', testChart);
+            document.body.innerHTML += '<p style="color: green;">✅ Chart.js работает! График должен отображаться выше.</p>';
+        } else {
+            console.error('Chart.js НЕ загружен!');
+            document.body.innerHTML += '<p style="color: red;">❌ Chart.js не загружен!</p>';
+        }
+    </script>
+</body>
+</html>

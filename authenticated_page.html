@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Основная игра - Пчелка Майя</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Фон с поляной -->
+        <div class="background">
+            <div class="field">
+                <!-- Деревья -->
+                <div class="tree apple-tree">
+                    <div class="tree-crown"></div>
+                    <div class="tree-trunk"></div>
+                </div>
+                <div class="tree cherry-tree">
+                    <div class="tree-crown"></div>
+                    <div class="tree-trunk"></div>
+                </div>
+                <div class="tree pear-tree">
+                    <div class="tree-crown"></div>
+                    <div class="tree-trunk"></div>
+                </div>
+                
+                <!-- Кустарники -->
+                <div class="bush red-currant"></div>
+                <div class="bush black-currant"></div>
+                <div class="bush raspberry-bush"></div>
+                
+                <!-- Улья -->
+                <div class="hives-container">
+                    
+                    <div class="hive" data-hive-id="1">
+                        <div class="hive-body"></div>
+                        <div class="hive-entrance"></div>
+                    </div>
+                    
+                    <div class="hive" data-hive-id="2">
+                        <div class="hive-body"></div>
+                        <div class="hive-entrance"></div>
+                    </div>
+                    
+                    <div class="hive" data-hive-id="3">
+                        <div class="hive-body"></div>
+                        <div class="hive-entrance"></div>
+                    </div>
+                    
+                    <div class="hive" data-hive-id="4">
+                        <div class="hive-body"></div>
+                        <div class="hive-entrance"></div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <!-- Интерфейс управления -->
+        <div class="ui-panel">
+            <div class="ui-content">
+                
+<div class="game-controls">
+    <button class="btn btn-primary" onclick="window.location.href='/game/bank'">
+        Банк
+    </button>
+    
+    <button class="btn btn-secondary" onclick="showModal('Авито', getAvitoContent())">
+        Авито
+    </button>
+    
+    <button class="btn btn-secondary" onclick="showModal('Налог', getTaxContent())">
+        Налог
+    </button>
+    
+    <button class="btn btn-secondary" onclick="showModal('Инвентарь', getInventoryContent())">
+        Инвентарь
+    </button>
+    
+    
+    <button class="btn btn-secondary" onclick="showModal('Выбор улья', getHiveSelectionContent())">
+        Улей
+    </button>
+    
+    
+    <button class="btn btn-secondary" onclick="openSettingsModalFromGame()">
+        Настройки
+    </button>
+    
+    <button class="btn btn-primary" onclick="nextDay()">
+        Следующий день
+    </button>
+    
+    <button class="btn btn-danger" onclick="window.location.href='/auth/logout'">
+        Назад
+    </button>
+</div>
+
+            </div>
+        </div>
+        
+        <!-- Информационная панель -->
+        <div class="info-panel">
+            <div class="game-info">
+                <span class="date">Дата: 2015-04-08</span>
+                <span class="debt">Кредит: 0.0</span>
+                <span class="cash">Наличные: 10000.0</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальные окна -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Заголовок</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                Содержимое модального окна
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/js/main.js"></script>
+    
+<script>
+function getAvitoContent() {
+    return `
+        <h4>Торговая площадка</h4>
+        <div class="marketplace">
+            <div class="list-group-item">
+                <strong>Медогонка</strong> - 15,000 руб.
+                <button class="btn btn-sm btn-primary" onclick="buyItem('honey_extractor')">Купить</button>
+            </div>
+            <div class="list-group-item">
+                <strong>Воскотопка</strong> - 8,000 руб.
+                <button class="btn btn-sm btn-primary" onclick="buyItem('wax_melter')">Купить</button>
+            </div>
+            <div class="list-group-item">
+                <strong>Пустые рамки (10 шт.)</strong> - 2,000 руб.
+                <button class="btn btn-sm btn-primary" onclick="buyItem('empty_frames')">Купить</button>
+            </div>
+            <div class="list-group-item">
+                <strong>Сахар (10 кг)</strong> - 500 руб.
+                <button class="btn btn-sm btn-primary" onclick="buyItem('sugar')">Купить</button>
+            </div>
+        </div>
+    `;
+}
+
+function getTaxContent() {
+    return `
+        <h4>Налоговая служба</h4>
+        <div class="tax-info">
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Налоговый долг (руб.)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">10000.0</div>
+                <div class="stat-label">Налогооблагаемый доход (руб.)</div>
+            </div>
+            <p class="mt-20">
+                Статус: Самозанятый пчеловод<br>
+                Ставка налога: 4% от дохода<br>
+                Следующий платеж: через 30 дней
+            </p>
+        </div>
+    `;
+}
+
+function getInventoryContent() {
+    return `
+        <h4>Инвентарь</h4>
+        <div class="inventory-grid">
+            <div class="stat-card">
+                <div class="stat-value">0.0 кг</div>
+                <div class="stat-label">Сахар</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">0.0 кг</div>
+                <div class="stat-label">Мед</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">0.0 кг</div>
+                <div class="stat-label">Воск</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Пустые рамки</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Медовые рамки</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">Нет</div>
+                <div class="stat-label">Медогонка</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">Нет</div>
+                <div class="stat-label">Воскотопка</div>
+            </div>
+        </div>
+    `;
+}
+
+function getHiveSelectionContent() {
+    let content = '<h4>Выберите улей:</h4><div class="hive-list">';
+    
+    
+    content += `
+        <div class="list-group-item" onclick="window.location.href='/game/hive/1'">
+            <strong>Улей 1</strong><br>
+            <small>Позиция: Не указана</small>
+        </div>
+    `;
+    
+    content += `
+        <div class="list-group-item" onclick="window.location.href='/game/hive/2'">
+            <strong>Улей 2</strong><br>
+            <small>Позиция: Не указана</small>
+        </div>
+    `;
+    
+    content += `
+        <div class="list-group-item" onclick="window.location.href='/game/hive/3'">
+            <strong>Улей 3</strong><br>
+            <small>Позиция: Не указана</small>
+        </div>
+    `;
+    
+    content += `
+        <div class="list-group-item" onclick="window.location.href='/game/hive/4'">
+            <strong>Улей 4</strong><br>
+            <small>Позиция: Не указана</small>
+        </div>
+    `;
+    
+    
+    content += '</div>';
+    return content;
+}
+
+async function buyItem(itemType) {
+    const prices = {
+        'honey_extractor': 15000,
+        'wax_melter': 8000,
+        'empty_frames': 2000,
+        'sugar': 500
+    };
+    
+    const price = prices[itemType];
+    if (!price) {
+        showNotification('Неизвестный товар', 'error');
+        return;
+    }
+    
+    // Здесь можно добавить логику покупки
+    showNotification(`Покупка ${itemType} за ${price} руб. - функция в разработке`, 'info');
+}
+
+function sellHoney(amount) {
+    // Логика продажи меда
+    showNotification(`Продажа ${amount} кг меда - функция в разработке`, 'info');
+}
+</script>
+
+</body>
+</html>

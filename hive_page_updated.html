@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Улей Улей 1 - Пчелка Майя</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Фон с поляной -->
+        <div class="background">
+            <div class="field">
+                <!-- Деревья -->
+                <div class="tree apple-tree">
+                    <div class="tree-crown"></div>
+                    <div class="tree-trunk"></div>
+                </div>
+                <div class="tree cherry-tree">
+                    <div class="tree-crown"></div>
+                    <div class="tree-trunk"></div>
+                </div>
+                <div class="tree pear-tree">
+                    <div class="tree-crown"></div>
+                    <div class="tree-trunk"></div>
+                </div>
+                
+                <!-- Кустарники -->
+                <div class="bush red-currant"></div>
+                <div class="bush black-currant"></div>
+                <div class="bush raspberry-bush"></div>
+                
+                <!-- Улья -->
+                <div class="hives-container">
+                    
+                    <div class="hive" data-hive-id="1">
+                        <div class="hive-body"></div>
+                        <div class="hive-entrance"></div>
+                    </div>
+                    
+                    <div class="hive" data-hive-id="2">
+                        <div class="hive-body"></div>
+                        <div class="hive-entrance"></div>
+                    </div>
+                    
+                    <div class="hive" data-hive-id="3">
+                        <div class="hive-body"></div>
+                        <div class="hive-entrance"></div>
+                    </div>
+                    
+                    <div class="hive" data-hive-id="4">
+                        <div class="hive-body"></div>
+                        <div class="hive-entrance"></div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <!-- Интерфейс управления -->
+        <div class="ui-panel">
+            <div class="ui-content">
+                
+<div class="hive-interface">
+    <div class="hive-diagram">
+        <div class="hive-cross-section">
+            <!-- Схематичное изображение улья в разрезе -->
+            <div class="hive-body-3d">
+                <div class="hive-section" data-section="top">
+                    <div class="section-label">Верхний магазин</div>
+                    <div class="frames-grid">
+                        
+                        <div class="frame-slot" data-frame="0">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="1">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="2">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="3">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="4">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="5">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="6">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="7">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="8">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="9">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="10">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="11">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="hive-section" data-section="middle">
+                    <div class="section-label">Средний магазин</div>
+                    <div class="frames-grid">
+                        
+                        <div class="frame-slot" data-frame="12">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="13">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="14">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="15">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="16">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="17">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="18">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="19">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="20">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="21">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="22">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="23">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="hive-section" data-section="bottom">
+                    <div class="section-label">Нижний магазин</div>
+                    <div class="frames-grid">
+                        
+                        <div class="frame-slot" data-frame="24">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="25">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="26">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="27">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="28">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="29">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="30">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="31">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="32">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="33">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="34">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                        <div class="frame-slot" data-frame="35">
+                            <div class="frame-visual"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="hive-controls">
+        <button class="btn btn-primary" onclick="showModal('Осмотр улья', getInspectionContent())">
+            Осмотр
+        </button>
+        
+        <button class="btn btn-secondary" onclick="showBeesStats()">
+            Статистика пчел
+        </button>
+        
+        <button class="btn btn-secondary" onclick="showNectarProfile()">
+            Профиль взятка
+        </button>
+        
+        <button class="btn btn-secondary" onclick="showModal('Подкормка', getFeedingContent())">
+            Подкормить
+        </button>
+        
+        <button class="btn btn-danger" onclick="window.location.href='/game/main'">
+            Назад
+        </button>
+    </div>
+</div>
+
+            </div>
+        </div>
+        
+        <!-- Информационная панель -->
+        <div class="info-panel">
+            <div class="game-info">
+                <span class="date">Дата: 2015-04-01</span>
+                <span class="debt">Кредит: 0</span>
+                <span class="cash">Наличные: 10000</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальные окна -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Заголовок</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                Содержимое модального окна
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/js/main.js"></script>
+    
+<script>
+// Загрузка данных улья при инициализации
+document.addEventListener('DOMContentLoaded', function() {
+    loadHiveData();
+});
+
+async function loadHiveData() {
+    const hiveId = 1;
+    
+    try {
+        // Загружаем статистику пчел
+        const statsResponse = await fetch(`/api/hive/${hiveId}/stats`);
+        if (statsResponse.ok) {
+            const stats = await statsResponse.json();
+            updateHiveVisualization(stats);
+        }
+        
+        // Загружаем профиль взятка
+        const profileResponse = await fetch(`/api/hive/${hiveId}/nectar_profile`);
+        if (profileResponse.ok) {
+            const profile = await profileResponse.json();
+            updateNectarDisplay(profile);
+        }
+        
+    } catch (error) {
+        console.error('Ошибка загрузки данных улья:', error);
+        showNotification('Ошибка загрузки данных улья', 'error');
+    }
+}
+
+function updateHiveVisualization(stats) {
+    // Обновляем визуализацию улья на основе статистики
+    const frames = document.querySelectorAll('.frame-slot');
+    
+    frames.forEach((frame, index) => {
+        const frameVisual = frame.querySelector('.frame-visual');
+        
+        // Определяем тип рамки по позиции
+        if (index >= 15 && index <= 20) {
+            // Центральные рамки с расплодом
+            frameVisual.style.background = `linear-gradient(45deg, #8B4513, #A0522D)`;
+            frameVisual.title = `Рамка с расплодом`;
+        } else {
+            // Медовые рамки
+            frameVisual.style.background = `linear-gradient(45deg, #FFD700, #DAA520)`;
+            frameVisual.title = `Медовая рамка`;
+        }
+    });
+}
+
+function updateNectarDisplay(profile) {
+    // Обновляем отображение взятка на странице
+    const hiveControls = document.querySelector('.hive-controls');
+    if (hiveControls) {
+        // Удаляем предыдущую информацию
+        const existingInfo = hiveControls.querySelector('.nectar-info');
+        if (existingInfo) {
+            existingInfo.remove();
+        }
+        
+        // Создаем новую информацию
+        const nectarInfo = document.createElement('div');
+        nectarInfo.className = 'nectar-info';
+        nectarInfo.innerHTML = `
+            <h5>Информация о взятке</h5>
+            <p><strong>Город:</strong> ${profile.city || 'Неизвестный'}</p>
+            <p><strong>Базовый взяток:</strong> ${profile.base_nectar?.toFixed(1) || '0.0'} мг/сутки</p>
+            <p><strong>Коэффициент сезона:</strong> ${profile.current_coefficient?.toFixed(2) || '1.00'}</p>
+            <p><strong>Текущий взяток:</strong> ${(profile.base_nectar * profile.current_coefficient)?.toFixed(1) || '0.0'} мг/сутки</p>
+        `;
+        
+        // Вставляем перед кнопкой "Назад"
+        const backButton = hiveControls.querySelector('.btn-danger');
+        if (backButton) {
+            hiveControls.insertBefore(nectarInfo, backButton);
+        } else {
+            hiveControls.appendChild(nectarInfo);
+        }
+    }
+}
+
+function getInspectionContent() {
+    return `
+        <h4>Осмотр рамок улья</h4>
+        <div class="inspection-grid">
+            
+            <div class="frame-inspection" onclick="inspectFrame(1)">
+                <div class="frame-number">Рамка 1</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(2)">
+                <div class="frame-number">Рамка 2</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(3)">
+                <div class="frame-number">Рамка 3</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(4)">
+                <div class="frame-number">Рамка 4</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(5)">
+                <div class="frame-number">Рамка 5</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(6)">
+                <div class="frame-number">Рамка 6</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(7)">
+                <div class="frame-number">Рамка 7</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(8)">
+                <div class="frame-number">Рамка 8</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(9)">
+                <div class="frame-number">Рамка 9</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(10)">
+                <div class="frame-number">Рамка 10</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(11)">
+                <div class="frame-number">Рамка 11</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(12)">
+                <div class="frame-number">Рамка 12</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(13)">
+                <div class="frame-number">Рамка 13</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(14)">
+                <div class="frame-number">Рамка 14</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(15)">
+                <div class="frame-number">Рамка 15</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(16)">
+                <div class="frame-number">Рамка 16</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(17)">
+                <div class="frame-number">Рамка 17</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(18)">
+                <div class="frame-number">Рамка 18</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(19)">
+                <div class="frame-number">Рамка 19</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(20)">
+                <div class="frame-number">Рамка 20</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(21)">
+                <div class="frame-number">Рамка 21</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(22)">
+                <div class="frame-number">Рамка 22</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(23)">
+                <div class="frame-number">Рамка 23</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(24)">
+                <div class="frame-number">Рамка 24</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(25)">
+                <div class="frame-number">Рамка 25</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(26)">
+                <div class="frame-number">Рамка 26</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(27)">
+                <div class="frame-number">Рамка 27</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(28)">
+                <div class="frame-number">Рамка 28</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(29)">
+                <div class="frame-number">Рамка 29</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(30)">
+                <div class="frame-number">Рамка 30</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(31)">
+                <div class="frame-number">Рамка 31</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(32)">
+                <div class="frame-number">Рамка 32</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(33)">
+                <div class="frame-number">Рамка 33</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(34)">
+                <div class="frame-number">Рамка 34</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(35)">
+                <div class="frame-number">Рамка 35</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(36)">
+                <div class="frame-number">Рамка 36</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(145)">
+                <div class="frame-number">Рамка 1</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(146)">
+                <div class="frame-number">Рамка 2</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(147)">
+                <div class="frame-number">Рамка 3</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(148)">
+                <div class="frame-number">Рамка 4</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(149)">
+                <div class="frame-number">Рамка 5</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(150)">
+                <div class="frame-number">Рамка 6</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(151)">
+                <div class="frame-number">Рамка 7</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(152)">
+                <div class="frame-number">Рамка 8</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(153)">
+                <div class="frame-number">Рамка 9</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(154)">
+                <div class="frame-number">Рамка 10</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(155)">
+                <div class="frame-number">Рамка 11</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(156)">
+                <div class="frame-number">Рамка 12</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(157)">
+                <div class="frame-number">Рамка 13</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(158)">
+                <div class="frame-number">Рамка 14</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(159)">
+                <div class="frame-number">Рамка 15</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(160)">
+                <div class="frame-number">Рамка 16</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(161)">
+                <div class="frame-number">Рамка 17</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(162)">
+                <div class="frame-number">Рамка 18</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(163)">
+                <div class="frame-number">Рамка 19</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(164)">
+                <div class="frame-number">Рамка 20</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(165)">
+                <div class="frame-number">Рамка 21</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(166)">
+                <div class="frame-number">Рамка 22</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(167)">
+                <div class="frame-number">Рамка 23</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(168)">
+                <div class="frame-number">Рамка 24</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(169)">
+                <div class="frame-number">Рамка 25</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(170)">
+                <div class="frame-number">Рамка 26</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(171)">
+                <div class="frame-number">Рамка 27</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(172)">
+                <div class="frame-number">Рамка 28</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(173)">
+                <div class="frame-number">Рамка 29</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(174)">
+                <div class="frame-number">Рамка 30</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(175)">
+                <div class="frame-number">Рамка 31</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(176)">
+                <div class="frame-number">Рамка 32</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(177)">
+                <div class="frame-number">Рамка 33</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(178)">
+                <div class="frame-number">Рамка 34</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(179)">
+                <div class="frame-number">Рамка 35</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(180)">
+                <div class="frame-number">Рамка 36</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 460
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(289)">
+                <div class="frame-number">Рамка 1</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 600
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(290)">
+                <div class="frame-number">Рамка 2</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 600
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(291)">
+                <div class="frame-number">Рамка 3</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 600
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(301)">
+                <div class="frame-number">Рамка 1</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 600
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(302)">
+                <div class="frame-number">Рамка 2</div>
+                <div class="frame-type">brood</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 600
+                </div>
+            </div>
+            
+            <div class="frame-inspection" onclick="inspectFrame(303)">
+                <div class="frame-number">Рамка 3</div>
+                <div class="frame-type">honey</div>
+                <div class="frame-cells">
+                    
+                    Ячеек: 600
+                </div>
+            </div>
+            
+        </div>
+        <p class="mt-20">
+            <strong>Инструкция:</strong> Двойной клик по медовой рамке переносит её в инвентарь.
+            Двойной клик по пустому месту показывает меню добавления рамки.
+        </p>
+    `;
+}
+
+// Обработчик для кнопки "Статистика пчел"
+async function showBeesStats() {
+    try {
+        const statsContent = await getBeesStats();
+        showModal('Статистика пчел', statsContent);
+    } catch (error) {
+        console.error('Ошибка при загрузке статистики пчел:', error);
+        showModal('Статистика пчел', '<div class="error-message"><p>Ошибка загрузки статистики. Попробуйте позже.</p></div>');
+    }
+}
+
+async function getBeesStats() {
+    try {
+        const hiveId = 1;
+        const response = await fetch(`/api/hive/${hiveId}/stats`);
+        
+        if (!response.ok) {
+            throw new Error('Ошибка загрузки статистики');
+        }
+        
+        const stats = await response.json();
+        
+        return `
+            <h4>Статистика пчел</h4>
+            <div class="bees-stats">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="eggs-count">${stats.eggs || 0}</div>
+                        <div class="stat-label">Яйца (0-3 дня)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="larvae-count">${stats.larvae || 0}</div>
+                        <div class="stat-label">Личинки (3-9 дней)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="pupae-count">${stats.pupae || 0}</div>
+                        <div class="stat-label">Куколки (9-12 дней)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="non-flying-count">${stats.non_flying || 0}</div>
+                        <div class="stat-label">Нелетные пчелы (0-14 дней)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="flying-count">${stats.flying || 0}</div>
+                        <div class="stat-label">Летные пчелы (более 14 дней)</div>
+                    </div>
+                </div>
+                <div class="stats-summary mt-20">
+                    <p><strong>Общее количество пчел:</strong> ${(stats.eggs || 0) + (stats.larvae || 0) + (stats.pupae || 0) + (stats.non_flying || 0) + (stats.flying || 0)}</p>
+                    <p><strong>Расплод (яйца + личинки + куколки):</strong> ${(stats.eggs || 0) + (stats.larvae || 0) + (stats.pupae || 0)}</p>
+                    <p><strong>Рабочие пчелы:</strong> ${(stats.non_flying || 0) + (stats.flying || 0)}</p>
+                </div>
+            </div>
+        `;
+        
+    } catch (error) {
+        console.error('Ошибка загрузки статистики пчел:', error);
+        return `
+            <h4>Статистика пчел</h4>
+            <div class="error-message">
+                <p>Ошибка загрузки статистики. Пожалуйста, попробуйте позже.</p>
+                <p>Детали ошибки: ${error.message}</p>
+            </div>
+        `;
+    }
+}
+
+// Обработчик для кнопки "Профиль взятка"
+async function showNectarProfile() {
+    try {
+        const profileContent = await getNectarProfile();
+        showModal('Профиль взятка', profileContent);
+    } catch (error) {
+        console.error('Ошибка при загрузке профиля взятка:', error);
+        showModal('Профиль взятка', '<div class="error-message"><p>Ошибка загрузки профиля взятка. Попробуйте позже.</p></div>');
+    }
+}
+
+async function getNectarProfile() {
+    try {
+        const hiveId = 1;
+        const response = await fetch(`/api/hive/${hiveId}/nectar_profile`);
+        
+        if (!response.ok) {
+            throw new Error('Ошибка загрузки профиля взятка');
+        }
+        
+        const profile = await response.json();
+        
+        return `
+            <h4>Профиль взятка</h4>
+            <div class="nectar-profile">
+                <div class="profile-info">
+                    <div class="stat-card">
+                        <div class="stat-value" id="base-nectar">${profile.base_nectar?.toFixed(1) || '0.0'}</div>
+                        <div class="stat-label">Базовый взяток (мг/сутки)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="current-coefficient">${profile.current_coefficient?.toFixed(2) || '1.00'}</div>
+                        <div class="stat-label">Текущий коэффициент</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="city-name">${profile.city || 'Неизвестный'}</div>
+                        <div class="stat-label">Город</div>
+                    </div>
+                </div>
+                <div class="nectar-calculation mt-20">
+                    <h5>Расчет взятка</h5>
+                    <p><strong>Текущий взяток:</strong> ${(profile.base_nectar * profile.current_coefficient)?.toFixed(1) || '0.0'} мг/сутки</p>
+                    <p><strong>Описание:</strong> Взяток зависит от базового значения местности, сезонного коэффициента и количества летных пчел.</p>
+                </div>
+                <div class="profile-chart mt-20">
+                    <canvas id="nectarChart" width="400" height="200"></canvas>
+                    <p class="chart-note">График взятка по дням года (в разработке)</p>
+                </div>
+            </div>
+        `;
+        
+    } catch (error) {
+        console.error('Ошибка загрузки профиля взятка:', error);
+        return `
+            <h4>Профиль взятка</h4>
+            <div class="error-message">
+                <p>Ошибка загрузки профиля взятка. Пожалуйста, попробуйте позже.</p>
+                <p>Детали ошибки: ${error.message}</p>
+            </div>
+        `;
+    }
+}
+
+function getFeedingContent() {
+    return `
+        <h4>Подкормка улья</h4>
+        <div class="feeding-form">
+            <div class="form-group">
+                <label>Количество сахара (кг):</label>
+                <input type="number" class="form-control" id="feeding-amount" 
+                       min="0.1" max="100" step="0.1" value="1">
+            </div>
+            <div class="feeding-info">
+                <p><strong>Текущий запас сахара:</strong> <span id="current-sugar">-</span> кг</p>
+                <p><strong>Рекомендуемая доза:</strong> 1-5 кг в зависимости от сезона</p>
+            </div>
+            <button class="btn btn-primary" onclick="performFeeding()">
+                Подкормить
+            </button>
+        </div>
+    `;
+}
+
+async function performFeeding() {
+    const amount = parseFloat(document.getElementById('feeding-amount').value);
+    const hiveId = 1;
+    
+    if (amount <= 0) {
+        showNotification('Введите корректное количество', 'error');
+        return;
+    }
+    
+    await feedHive(hiveId, amount);
+    closeModal();
+}
+
+function inspectFrame(frameId) {
+    // Детальный осмотр рамки
+    showModal('Осмотр рамки', `
+        <h4>Рамка #${frameId}</h4>
+        <div class="frame-detail">
+            <p>Здесь можно увидеть детальную информацию о рамке:</p>
+            <ul>
+                <li>Количество ячеек с расплодом</li>
+                <li>Количество медовых ячеек</li>
+                <li>Возраст расплода</li>
+                <li>Количество меда</li>
+            </ul>
+            <div class="frame-actions">
+                <button class="btn btn-primary" onclick="extractHoney(${frameId})">
+                    Откачать мед
+                </button>
+                <button class="btn btn-secondary" onclick="replaceFrame(${frameId})">
+                    Заменить рамку
+                </button>
+            </div>
+        </div>
+    `);
+}
+
+function extractHoney(frameId) {
+    showNotification(`Откачка меда с рамки ${frameId} - функция в разработке`, 'info');
+}
+
+function replaceFrame(frameId) {
+    showNotification(`Замена рамки ${frameId} - функция в разработке`, 'info');
+}
+
+// Обработка двойного клика по рамкам
+document.addEventListener('dblclick', function(e) {
+    if (e.target.closest('.frame-slot')) {
+        const frameSlot = e.target.closest('.frame-slot');
+        const frameNumber = frameSlot.dataset.frame;
+        
+        // Показываем меню действий с рамкой
+        showFrameMenu(frameNumber);
+    }
+});
+
+function showFrameMenu(frameNumber) {
+    showModal('Действие с рамкой', `
+        <h4>Рамка ${parseInt(frameNumber) + 1}</h4>
+        <div class="frame-menu">
+            <button class="btn btn-primary" onclick="addEmptyFrame(${frameNumber})">
+                Добавить пустую рамку
+            </button>
+            <button class="btn btn-primary" onclick="addHoneyFrame(${frameNumber})">
+                Добавить медовую рамку
+            </button>
+            <button class="btn btn-danger" onclick="removeFrame(${frameNumber})">
+                Удалить рамку
+            </button>
+        </div>
+    `);
+}
+
+function addEmptyFrame(frameNumber) {
+    showNotification(`Добавление пустой рамки ${frameNumber} - функция в разработке`, 'info');
+}
+
+function addHoneyFrame(frameNumber) {
+    showNotification(`Добавление медовой рамки ${frameNumber} - функция в разработке`, 'info');
+}
+
+function removeFrame(frameNumber) {
+    showNotification(`Удаление рамки ${frameNumber} - функция в разработке`, 'info');
+}
+</script>
+
+<style>
+.hive-interface {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.hive-diagram {
+    flex: 1;
+    background: linear-gradient(135deg, #F5DEB3 0%, #DEB887 50%, #D2691E 100%);
+    border-radius: 15px;
+    margin-bottom: 20px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hive-cross-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hive-body-3d {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: rgba(139, 69, 19, 0.1);
+    border: 3px solid #8B4513;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 600px;
+}
+
+.hive-section {
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    padding: 10px;
+    position: relative;
+}
+
+.section-label {
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background: #8B4513;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.frames-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.frame-slot {
+    aspect-ratio: 1;
+    border: 2px solid #8B4513;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.frame-slot:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.frame-visual {
+    width: 80%;
+    height: 80%;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.hive-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inspection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.frame-inspection {
+    background: rgba(255,255,255,0.6);
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.frame-inspection:hover {
+    background: rgba(255,255,255,0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.frame-number {
+    font-weight: bold;
+    color: #8B4513;
+    margin-bottom: 5px;
+}
+
+.frame-type {
+    font-size: 14px;
+    color: #2F4F4F;
+    margin-bottom: 5px;
+}
+
+.frame-cells {
+    font-size: 12px;
+    color: #666;
+}
+
+.bees-stats, .nectar-profile {
+    margin: 20px 0;
+}
+
+.profile-info {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-chart {
+    background: rgba(255,255,255,0.5);
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.feeding-form {
+    max-width: 400px;
+}
+
+.feeding-info {
+    background: rgba(255,255,255,0.5);
+    border: 1px solid #D2691E;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.frame-detail {
+    margin: 20px 0;
+}
+
+.frame-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.frame-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nectar-info {
+    background: rgba(255,255,255,0.5);
+    border: 1px solid #D2691E;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 15px;
+}
+</style>
+
+</body>
+</html>
