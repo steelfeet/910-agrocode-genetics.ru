@@ -1,0 +1,906 @@
+{% extends "base.html" %}
+
+{% block title %}Основная игра - Пчелка Майя{% endblock %}
+
+{% block content %}
+<div class="game-controls">
+    <button class="btn btn-warning" onclick="confirmNewGame()">
+        Новая игра
+    </button>
+    
+    <button class="btn btn-primary" onclick="window.location.href='/game/bank'">
+        Банк
+    </button>
+    
+    <button class="btn btn-secondary" onclick="showModal('Авито', getAvitoContent())">
+        Авито
+    </button>
+    
+    <button class="btn btn-danger" onclick="showSalesForecast()">
+        Прогноз сбыта
+    </button>
+    
+    <button class="btn btn-success" onclick="showModal('Коллаборации', getCollaborationContent())">
+        Коллаборации
+    </button>
+
+    <button class="btn btn-secondary" onclick="showModal('Налог', getTaxContent())">
+        Налог
+    </button>
+    
+    <button class="btn btn-secondary" onclick="showModal('Инвентарь', getInventoryContent())">
+        Инвентарь
+    </button>
+    
+    <button class="btn btn-secondary">
+        Мастерская
+    </button>
+
+    {% if hives_count > 0 %}
+    <button class="btn btn-secondary" onclick="showModal('Выбор улья', getHiveSelectionContent())">
+        Улей
+    </button>
+    
+    <button class="btn btn-info" onclick="showNectarProfile()">
+        Профиль взятка
+    </button>
+    {% endif %}
+    
+    <button class="btn btn-secondary" onclick="openSettingsModalFromGame()">
+        Настройки
+    </button>
+    
+    <button class="btn btn-primary" onclick="nextDay()">
+        Следующий день
+    </button>
+    
+    <button class="btn btn-secondary">
+        Библиотека
+    </button>
+
+    <button class="btn btn-secondary">
+        Посоветоваться
+    </button>
+
+    <button class="btn btn-secondary">
+        Рейтинг
+    </button>
+
+    <button class="btn btn-danger" onclick="window.location.href='/auth/logout'">
+        Назад
+    </button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function getAvitoContent() {
+    return `
+        <h4>Торговая площадка</h4>
+        <div class="marketplace">
+            <div class="list-group-item">
+                <strong>Медогонка</strong> - 15,000 руб.
+                <button class="btn btn-sm btn-primary" onclick="buyItem('honey_extractor')">Купить</button>
+            </div>
+            <div class="list-group-item">
+                <strong>Воскотопка</strong> - 8,000 руб.
+                <button class="btn btn-sm btn-primary" onclick="buyItem('wax_melter')">Купить</button>
+            </div>
+            <div class="list-group-item">
+                <strong>Пустые рамки (10 шт.)</strong> - 2,000 руб.
+                <button class="btn btn-sm btn-primary" onclick="buyItem('empty_frames')">Купить</button>
+            </div>
+            <div class="list-group-item">
+                <strong>Сахар (10 кг)</strong> - 500 руб.
+                <button class="btn btn-sm btn-primary" onclick="buyItem('sugar')">Купить</button>
+            </div>
+        </div>
+    `;
+}
+
+function getTaxContent() {
+    return `
+        <h4>Налоговая служба</h4>
+        <div class="tax-info">
+            <div class="stat-card">
+                <div class="stat-value">{{ user.debt or 0 }}</div>
+                <div class="stat-label">Налоговый долг (руб.)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ user.cash or 0 }}</div>
+                <div class="stat-label">Налогооблагаемый доход (руб.)</div>
+            </div>
+            <p class="mt-20">
+                Статус: Самозанятый пчеловод<br>
+                Ставка налога: 4% от дохода<br>
+                Следующий платеж: через 30 дней
+            </p>
+        </div>
+    `;
+}
+
+function getInventoryContent() {
+    return `
+        <h4>Инвентарь</h4>
+        <div class="inventory-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{ user.inventory.sugar if user.inventory else 0 }} кг</div>
+                <div class="stat-label">Сахар</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ user.inventory.honey if user.inventory else 0 }} кг</div>
+                <div class="stat-label">Мед</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ user.inventory.wax if user.inventory else 0 }} кг</div>
+                <div class="stat-label">Воск</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ user.inventory.empty_frames if user.inventory else 0 }}</div>
+                <div class="stat-label">Пустые рамки</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ user.inventory.honey_frames if user.inventory else 0 }}</div>
+                <div class="stat-label">Медовые рамки</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ 'Есть' if user.inventory and user.inventory.honey_extractor else 'Нет' }}</div>
+                <div class="stat-label">Медогонка</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ 'Есть' if user.inventory and user.inventory.wax_melter else 'Нет' }}</div>
+                <div class="stat-label">Воскотопка</div>
+            </div>
+        </div>
+    `;
+}
+
+function getHiveSelectionContent() {
+    let content = '<h4>Выберите улей:</h4><div class="hive-list">';
+    
+    {% for hive in user.hives %}
+    content += `
+        <div class="list-group-item" onclick="window.location.href='/game/hive/{{ hive.id }}'">
+            <strong>{{ hive.name }}</strong><br>
+            <small>Позиция: {{ hive.position or 'Не указана' }}</small>
+        </div>
+    `;
+    {% endfor %}
+    
+    content += '</div>';
+    return content;
+}
+
+async function buyItem(itemType) {
+    const prices = {
+        'honey_extractor': 15000,
+        'wax_melter': 8000,
+        'empty_frames': 2000,
+        'sugar': 500
+    };
+    
+    const price = prices[itemType];
+    if (!price) {
+        showNotification('Неизвестный товар', 'error');
+        return;
+    }
+    
+    // Здесь можно добавить логику покупки
+    showNotification(`Покупка ${itemType} за ${price} руб. - функция в разработке`, 'info');
+}
+
+function sellHoney(amount) {
+    // Логика продажи меда
+    showNotification(`Продажа ${amount} кг меда - функция в разработке`, 'info');
+}
+
+async function confirmNewGame() {
+    if (confirm('Вы уверены, что хотите начать новую игру? Все текущие данные будут потеряны!')) {
+        try {
+            const response = await fetch('/game/reset_game', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showNotification(data.message, 'success');
+                // Перенаправляем к настройкам новой игры
+                setTimeout(() => {
+                    window.location.href = '/game/settings';
+                }, 1500);
+            } else {
+                showNotification(data.error || 'Ошибка при сбросе игры', 'error');
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+            showNotification('Ошибка соединения с сервером', 'error');
+        }
+    }
+}
+
+// Обработчик для кнопки "Профиль взятка"
+async function showNectarProfile() {
+    try {
+        const profileContent = await getNectarProfile();
+        showModal('Профиль взятка', profileContent);
+        
+        // Создаем график после загрузки модального окна
+        setTimeout(() => {
+            createNectarChart();
+        }, 100);
+    } catch (error) {
+        console.error('Ошибка при загрузке профиля взятка:', error);
+        showModal('Профиль взятка', '<div class="error-message"><p>Ошибка загрузки профиля взятка. Попробуйте позже.</p></div>');
+    }
+}
+
+async function getNectarProfile() {
+    try {
+        const response = await fetch('/api/user/nectar_profile');
+        
+        if (!response.ok) {
+            throw new Error('Ошибка загрузки профиля взятка');
+        }
+        
+        const profile = await response.json();
+        
+        return `
+            <h4>Профиль взятка</h4>
+            <div class="nectar-profile">
+                <div class="profile-info">
+                    <div class="stat-card">
+                        <div class="stat-value" id="base-nectar">${profile.base_nectar?.toFixed(1) || '0.0'}</div>
+                        <div class="stat-label">Базовый взяток (мг/сутки)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="current-coefficient">${profile.current_coefficient?.toFixed(2) || '1.00'}</div>
+                        <div class="stat-label">Текущий коэффициент</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="city-name">${profile.city || 'Неизвестный'}</div>
+                        <div class="stat-label">Город</div>
+                    </div>
+                </div>
+                
+                <div class="hives-summary mt-20">
+                    <h5>Статистика пасеки</h5>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">${profile.total_hives || 0}</div>
+                            <div class="stat-label">Количество ульев</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${profile.total_bees || 0}</div>
+                            <div class="stat-label">Всего пчел</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${profile.total_flying_bees || 0}</div>
+                            <div class="stat-label">Летных пчел</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nectar-calculation mt-20">
+                    <h5>Расчет взятка</h5>
+                    <div class="calculation-details">
+                        <p><strong>Формула:</strong> базовый_взяток × коэффициент_сезона × количество_летных пчел</p>
+                        <p><strong>Расчет:</strong> ${profile.base_nectar?.toFixed(1) || '0.0'} × ${profile.current_coefficient?.toFixed(2) || '1.00'} × ${profile.total_flying_bees || 0} = <strong>${profile.total_nectar?.toFixed(1) || '0.0'} мг/сутки</strong></p>
+                        <p><strong>Описание:</strong> Общий взяток всех ульев зависит от базового значения местности, сезонного коэффициента и количества летных пчел на всей пасеке.</p>
+                    </div>
+                </div>
+                
+                <div class="nectar-chart mt-20">
+                    <h5>График взятка по месяцам</h5>
+                    <div class="chart-container">
+                        <canvas id="nectarChart" width="800" height="400"></canvas>
+                    </div>
+                    <div class="chart-legend mt-10">
+                        <h6>Графики взятка:</h6>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <div class="legend-line" style="background-color: #2E8B57; height: 3px;"></div>
+                                <span>Сезонный коэффициент взятка</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-line" style="background-color: #FF6347; height: 2px; border-style: dashed;"></div>
+                                <span>Возрастание взятка (расчетное)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-line" style="background-color: #4169E1; height: 2px;"></div>
+                                <span>Возрастание взятка (реальное)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-line" style="background-color: #808080; height: 3px;"></div>
+                                <span>Суммарный взяток (сезонный + реальный)</span>
+                            </div>
+                        </div>
+                        <div class="legend-section mt-15">
+                            <h6>Основные медоносы:</h6>
+                            <div class="legend-items">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #FFD700;"></div>
+                                    <span>Ива (март-апрель)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #FF6347;"></div>
+                                    <span>Клен (апрель-май)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #32CD32;"></div>
+                                    <span>Липа (июнь-июль)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #FF8C00;"></div>
+                                    <span>Гречиха (июль-август)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #9370DB;"></div>
+                                    <span>Подсолнух (август-сентябрь)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+    } catch (error) {
+        console.error('Ошибка загрузки профиля взятка:', error);
+        return `
+            <h4>Профиль взятка</h4>
+            <div class="error-message">
+                <p>Ошибка загрузки профиля взятка. Пожалуйста, попробуйте позже.</p>
+                <p>Детали ошибки: ${error.message}</p>
+            </div>
+        `;
+    }
+}
+
+// Функция для создания графика взятка с пиками медоносов
+function createNectarChart() {
+    try {
+        const ctx = document.getElementById('nectarChart');
+        if (!ctx) {
+            console.error('Canvas элемент не найден');
+            return;
+        }
+
+        // Проверяем доступность Chart.js
+        if (typeof Chart === 'undefined') {
+            console.log('Chart.js недоступен, создаем простой график...');
+            createSimpleNectarChart(ctx);
+            return;
+        }
+
+        // Генерируем данные для графика
+        const chartData = generateNectarData();
+        
+        const chartConfig = {
+            type: 'line',
+            data: {
+                labels: chartData.labels,
+                datasets: [
+                    // Основной график сезонного взятка (без цветных точек)
+                    {
+                        label: 'Сезонный коэффициент взятка',
+                        data: chartData.values,
+                        borderColor: '#2E8B57',
+                        backgroundColor: 'rgba(46, 139, 87, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0, // Убираем точки
+                        pointHoverRadius: 0
+                    },
+                    // График возрастания взятка - расчетный момент цветения
+                    {
+                        label: 'Возрастание взятка (расчетное)',
+                        data: chartData.riseValuesCalculated,
+                        borderColor: '#FF6347',
+                        backgroundColor: 'rgba(255, 99, 71, 0.1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                        borderDash: [5, 5] // Пунктирная линия
+                    },
+                    // График возрастания взятка - реальный момент цветения
+                    {
+                        label: 'Возрастание взятка (реальное)',
+                        data: chartData.riseValuesActual,
+                        borderColor: '#4169E1',
+                        backgroundColor: 'rgba(65, 105, 225, 0.1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointHoverRadius: 5
+                    },
+                    // График суммы сезонного и реального взятка
+                    {
+                        label: 'Суммарный взяток (сезонный + реальный)',
+                        data: chartData.combinedValues,
+                        borderColor: '#808080',
+                        backgroundColor: 'rgba(128, 128, 128, 0.1)',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 2,
+                        pointHoverRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Сезонные пики взятка по медоносам (март-сентябрь)'
+                    },
+                    legend: {
+                        display: false // Скрываем стандартную легенду, используем свою
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.parsed.y;
+                                const month = context.label;
+                                const datasetLabel = context.dataset.label;
+                                const plant = chartData.plants[context.dataIndex] || 'Основной взяток';
+                                
+                                if (datasetLabel.includes('расчетное')) {
+                                    return `${month}: ${value.toFixed(1)} - Возрастание взятка (расчетное)`;
+                                } else if (datasetLabel.includes('реальное')) {
+                                    return `${month}: ${value.toFixed(1)} - Возрастание взятка (реальное)`;
+                                } else if (datasetLabel.includes('суммарный')) {
+                                    return `${month}: ${value.toFixed(1)} - ${plant} (суммарный взяток)`;
+                                } else {
+                                    return `${month}: ${value.toFixed(1)} - ${plant}`;
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        title: {
+                            display: true,
+                            text: 'Сезонный коэффициент (1-10)'
+                        },
+                        ticks: {
+                            stepSize: 1
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Месяцы'
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        };
+
+        new Chart(ctx, chartConfig);
+        console.log('✅ График взятка создан успешно');
+        
+    } catch (error) {
+        console.error('Ошибка создания графика:', error);
+        const ctx = document.getElementById('nectarChart');
+        if (ctx) {
+            createSimpleNectarChart(ctx);
+        }
+    }
+}
+
+// Генерация данных для графика с пиками медоносов
+function generateNectarData() {
+    const months = ['Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь'];
+    const values = [1.0, 2.5, 3.8, 5.5, 6.8, 5.2, 3.1]; // Уменьшены для размещения суммы в диапазон 0-10
+    const colors = ['#87CEEB', '#FFD700', '#FF6347', '#32CD32', '#32CD32', '#FF8C00', '#9370DB'];
+    const plants = ['Зима', 'Ива', 'Клен + Ива', 'Липа', 'Липа + Гречиха', 'Гречиха', 'Подсолнух'];
+    
+    // Добавляем дополнительные точки для более плавной кривой
+    const extendedLabels = [];
+    const extendedValues = [];
+    const extendedColors = [];
+    const extendedPlants = [];
+    
+    for (let i = 0; i < months.length - 1; i++) {
+        const currentMonth = months[i];
+        const nextMonth = months[i + 1];
+        const currentValue = values[i];
+        const nextValue = values[i + 1];
+        const currentColor = colors[i];
+        const nextColor = colors[i + 1];
+        const currentPlant = plants[i];
+        const nextPlant = plants[i + 1];
+        
+        // Добавляем текущий месяц
+        extendedLabels.push(currentMonth);
+        extendedValues.push(currentValue);
+        extendedColors.push(currentColor);
+        extendedPlants.push(currentPlant);
+        
+        // Добавляем промежуточную точку
+        if (i < months.length - 2) {
+            const midMonth = `${currentMonth.split('-')[0]}-${nextMonth.split('-')[0]}`;
+            const midValue = (currentValue + nextValue) / 2 + (Math.random() - 0.5) * 1.0; // Увеличен разброс в 2 раза
+            const midColor = currentColor; // Используем цвет текущего месяца
+            const midPlant = currentPlant;
+            
+            extendedLabels.push(midMonth);
+            extendedValues.push(Math.max(1, Math.min(10, midValue)));
+            extendedColors.push(midColor);
+            extendedPlants.push(midPlant);
+        }
+    }
+    
+    // Добавляем последний месяц
+    extendedLabels.push(months[months.length - 1]);
+    extendedValues.push(values[values.length - 1]);
+    extendedColors.push(colors[colors.length - 1]);
+    extendedPlants.push(plants[plants.length - 1]);
+    
+    // Генерируем данные для графиков возрастания взятка
+    const riseValuesCalculated = generateRiseData(extendedLabels.length, 0); // Расчетное - без смещения
+    const riseValuesActual = generateRiseData(extendedLabels.length, 7); // Реальное - смещение на 7 дней
+    
+    // Генерируем данные для комбинированного графика (сумма сезонного и реального взятка)
+    const combinedValues = generateCombinedValues(extendedValues, riseValuesActual);
+    
+    return {
+        labels: extendedLabels,
+        values: extendedValues,
+        colors: extendedColors,
+        plants: extendedPlants,
+        riseValuesCalculated: riseValuesCalculated,
+        riseValuesActual: riseValuesActual,
+        combinedValues: combinedValues
+    };
+}
+
+// Генерация данных для графика возрастания взятка
+function generateRiseData(dataLength, timeOffset) {
+    const riseData = new Array(dataLength).fill(null);
+    
+    // Генерируем 4-5 пиков возрастания взятка продолжительностью 1-3 недели
+    // с меньшим размахом значений и различными временными характеристиками
+    let peaks;
+    
+    if (timeOffset === 0) {
+        // Расчетное время - базовые пики (уменьшены для размещения суммы в диапазон 0-10)
+        peaks = [
+            { start: 10, duration: 14, maxValue: 2.5 }, // Ранний апрель - 1-й пик
+            { start: 25, duration: 21, maxValue: 2.8 }, // Середина апреля - 2-й пик (совпадает с реальным)
+            { start: 45, duration: 18, maxValue: 3.0 }, // Май - 3-й пик
+            { start: 70, duration: 16, maxValue: 2.6 }, // Начало июня - 4-й пик (совпадает с реальным)
+            { start: 95, duration: 12, maxValue: 2.2 }  // Июнь - 5-й пик
+        ];
+    } else {
+        // Реальное время - пики с временным смещением и измененными характеристиками (уменьшены)
+        peaks = [
+            { start: 12, duration: 16, maxValue: 2.5 }, // Ранний апрель - 1-й пик (отличается окончанием)
+            { start: 25, duration: 21, maxValue: 2.8 }, // Середина апреля - 2-й пик (СОВПАДАЕТ с расчетным)
+            { start: 43, duration: 21, maxValue: 3.0 }, // Май - 3-й пик (отличается началом)
+            { start: 70, duration: 16, maxValue: 2.6 }, // Начало июня - 4-й пик (СОВПАДАЕТ с расчетным)
+            { start: 92, duration: 15, maxValue: 2.2 }  // Конец июня - 5-й пик (отличается началом и окончанием)
+        ];
+    }
+    
+    peaks.forEach(peak => {
+        for (let i = 0; i < dataLength; i++) {
+            const dayIndex = i * 7; // Предполагаем, что каждая точка = неделя
+            const daysFromStart = dayIndex - peak.start;
+            
+            if (daysFromStart >= 0 && daysFromStart <= peak.duration) {
+                // Форма пика - плавное возрастание и спад
+                const progress = daysFromStart / peak.duration;
+                const bellCurve = Math.sin(progress * Math.PI); // Колоколообразная кривая
+                const value = peak.maxValue * bellCurve;
+                
+                // Если в этой точке уже есть значение, берем максимум
+                if (riseData[i] === null || riseData[i] < value) {
+                    riseData[i] = Math.round(value * 10) / 10; // Округляем до 1 знака
+                }
+            }
+        }
+    });
+    
+    return riseData;
+}
+
+// Генерация данных для комбинированного графика (сумма сезонного и реального взятка)
+function generateCombinedValues(seasonalValues, realRiseValues) {
+    const combinedValues = [];
+    
+    for (let i = 0; i < seasonalValues.length; i++) {
+        const seasonalValue = seasonalValues[i];
+        const realRiseValue = realRiseValues[i] || 0; // Если нет значения реального взятка, считаем 0
+        
+        // Суммируем сезонное значение и реальное возрастание взятка
+        const combined = seasonalValue + realRiseValue;
+        combinedValues.push(Math.round(combined * 10) / 10); // Округляем до 1 знака
+    }
+    
+    return combinedValues;
+}
+
+// Создание простого графика без Chart.js
+function createSimpleNectarChart(canvas) {
+    try {
+        const ctx = canvas.getContext('2d');
+        
+        // Очищаем canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Настройки графика
+        const padding = 60;
+        const chartWidth = canvas.width - 2 * padding;
+        const chartHeight = canvas.height - 2 * padding;
+        
+        const data = generateNectarData();
+        
+        // Рисуем оси
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(padding, padding);
+        ctx.lineTo(padding, canvas.height - padding);
+        ctx.lineTo(canvas.width - padding, canvas.height - padding);
+        ctx.stroke();
+        
+        // Функция для преобразования значения в координату Y
+        function getY(value) {
+            return canvas.height - padding - (value / 10) * chartHeight;
+        }
+        
+        // Функция для преобразования индекса в координату X
+        function getX(index) {
+            return padding + (index / (data.labels.length - 1)) * chartWidth;
+        }
+        
+        // Добавляем значения по оси Y
+        ctx.fillStyle = '#666';
+        ctx.font = '11px Arial';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 10; i += 2) {
+            const y = getY(i);
+            ctx.fillText(i.toString(), padding - 5, y + 4);
+            
+            // Горизонтальная линия сетки
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(padding, y);
+            ctx.lineTo(canvas.width - padding, y);
+            ctx.stroke();
+        }
+        
+        // Добавляем значения по оси X
+        ctx.textAlign = 'center';
+        data.labels.forEach((label, index) => {
+            const x = getX(index);
+            ctx.fillStyle = '#666';
+            ctx.fillText(label, x, canvas.height - padding + 15);
+        });
+        
+        // Рисуем основную линию графика (без точек)
+        ctx.strokeStyle = '#2E8B57';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        
+        data.values.forEach((value, index) => {
+            const x = getX(index);
+            const y = getY(value);
+            if (index === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+        });
+        ctx.stroke();
+        
+        // Рисуем график возрастания взятка (расчетное) - красная пунктирная линия
+        if (data.riseValuesCalculated) {
+            ctx.strokeStyle = '#FF6347';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]); // Пунктирная линия
+            ctx.beginPath();
+            
+            let hasStarted = false;
+            data.riseValuesCalculated.forEach((value, index) => {
+                if (value !== null) {
+                    const x = getX(index);
+                    const y = getY(value);
+                    if (!hasStarted) {
+                        ctx.moveTo(x, y);
+                        hasStarted = true;
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+            });
+            ctx.stroke();
+            ctx.setLineDash([]); // Сбрасываем пунктир
+        }
+        
+        // Рисуем график возрастания взятка (реальное) - синяя сплошная линия
+        if (data.riseValuesActual) {
+            ctx.strokeStyle = '#4169E1';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+            let hasStarted = false;
+            data.riseValuesActual.forEach((value, index) => {
+                if (value !== null) {
+                    const x = getX(index);
+                    const y = getY(value);
+                    if (!hasStarted) {
+                        ctx.moveTo(x, y);
+                        hasStarted = true;
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+            });
+            ctx.stroke();
+        }
+        
+        // Рисуем комбинированный график (сезонный + реальный) - серая сплошная линия
+        if (data.combinedValues) {
+            ctx.strokeStyle = '#808080';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            let hasStarted = false;
+            data.combinedValues.forEach((value, index) => {
+                const x = getX(index);
+                const y = getY(value);
+                if (!hasStarted) {
+                    ctx.moveTo(x, y);
+                    hasStarted = true;
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            ctx.stroke();
+        }
+        
+        // Добавляем заголовок
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 14px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Сезонные пики взятка по медоносам', canvas.width / 2, 25);
+        
+        // Добавляем подписи осей
+        ctx.font = '12px Arial';
+        ctx.fillStyle = '#333';
+        
+        // Подпись оси Y
+        ctx.save();
+        ctx.translate(15, canvas.height / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.textAlign = 'center';
+        ctx.fillText('Сезонный коэффициент (1-10)', 0, 0);
+        ctx.restore();
+        
+        // Подпись оси X
+        ctx.textAlign = 'center';
+        ctx.fillText('Месяцы', canvas.width / 2, canvas.height - 10);
+        
+        console.log('✅ Простой график взятка создан успешно');
+        
+    } catch (error) {
+        console.error('Ошибка создания простого графика:', error);
+    }
+}
+
+// Стили для легенды графика
+const style = document.createElement('style');
+style.textContent = `
+    .chart-legend {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+    }
+    
+    .chart-legend h6 {
+        margin: 0 0 10px 0;
+        color: #495057;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    
+    .legend-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: #6c757d;
+    }
+    
+    .legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 0 3px rgba(0,0,0,0.3);
+    }
+    
+    .legend-line {
+        width: 20px;
+        height: 3px;
+        border-radius: 2px;
+        border: none;
+        display: inline-block;
+    }
+    
+    .legend-section {
+        border-top: 1px solid #dee2e6;
+        padding-top: 10px;
+        margin-top: 10px;
+    }
+    
+    .legend-section h6 {
+        margin: 0 0 8px 0;
+        color: #6c757d;
+        font-size: 13px;
+        font-weight: 500;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 400px;
+        margin-bottom: 15px;
+        width: 100%;
+    }
+    
+    .nectar-chart {
+        margin-top: 20px;
+    }
+    
+    .nectar-chart h5 {
+        color: #495057;
+        margin-bottom: 15px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    /* Увеличение ширины модального окна для графика */
+    .modal {
+        max-width: 900px !important;
+        width: 90vw !important;
+    }
+    
+    .modal-body {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+`;
+document.head.appendChild(style);
+</script>
+
+<!-- Подключение JavaScript для коллабораций -->
+<script src="/static/js/collaboration.js"></script>
+{% endblock %}

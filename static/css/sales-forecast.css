@@ -1,0 +1,333 @@
+/* CSS стили для функции прогноза сбыта */
+/* Отделен от style.css для лучшей архитектуры */
+
+/* Стили для прогноза сбыта */
+.sales-forecast {
+    max-width: 100%;
+    width: 100%;
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+}
+
+.forecast-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+    color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.tab-button.active {
+    background: #fff;
+    color: #007bff;
+    border-bottom-color: #007bff;
+}
+
+.forecast-tab {
+    display: none;
+}
+
+.forecast-tab.active {
+    display: block;
+}
+
+.brand-header {
+    text-align: center;
+    margin-bottom: 20px; /* Возвращаем к 20px */
+    padding: 15px; /* Возвращаем к 15px */
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 8px; /* Возвращаем к 8px */
+    border: 1px solid #dee2e6;
+}
+
+.brand-header h5 {
+    margin: 0 0 8px 0;
+    color: #495057;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.brand-slogan {
+    margin: 0;
+    color: #6c757d;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.chart-container {
+    display: flex;
+    gap: 20px; /* Возвращаем к 20px */
+    margin-bottom: 20px; /* Возвращаем к 20px */
+    align-items: flex-start;
+    width: 100%;
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+}
+
+.chart-container canvas {
+    flex: 1;
+    max-width: 900px;
+    width: 100%;
+    height: 320px; /* Возвращаем к 320px для лучшей видимости */
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background: #fff;
+    min-width: 650px; /* Возвращаем к 650px */
+}
+
+.summary-panel {
+    min-width: 200px; /* Возвращаем к 200px */
+    background: #f8f9fa;
+    padding: 15px; /* Возвращаем к 15px */
+    border-radius: 8px; /* Возвращаем к 8px */
+    border: 1px solid #dee2e6;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.summary-item:last-child {
+    margin-bottom: 0;
+}
+
+.summary-label {
+    font-weight: 500;
+    color: #495057;
+    font-size: 14px;
+}
+
+.summary-value {
+    font-weight: 600;
+    color: #007bff;
+    font-size: 14px;
+}
+
+.controls-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    margin-top: 20px; 
+    padding: 5px; 
+    background: #fafafa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px; /* Возвращаем к 12px */
+    background: #ffffff;
+    border-radius: 8px; /* Возвращаем к 8px */
+    border: 1px solid #dee2e6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Возвращаем нормальную тень */
+}
+
+.control-group label {
+    min-width: 140px;
+    font-weight: 500;
+    color: #495057;
+    margin: 0;
+}
+
+.control-group .slider {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: #dee2e6;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.control-group .slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.control-group .slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.slider-value {
+    min-width: 80px;
+    font-weight: 600;
+    color: #007bff;
+    text-align: right;
+    font-size: 14px;
+}
+
+/* Адаптивные стили для прогноза сбыта */
+@media (max-width: 768px) {
+    .chart-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .chart-container canvas {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .summary-panel {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .control-group {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .control-group label {
+        min-width: auto;
+        margin-bottom: 8px;
+    }
+    
+    .slider-value {
+        text-align: center;
+        margin-top: 5px;
+    }
+    
+    .forecast-tabs {
+        flex-direction: column;
+    }
+    
+    .tab-button {
+        border-bottom: none;
+        border-right: 3px solid transparent;
+    }
+    
+    .tab-button.active {
+        border-right-color: #007bff;
+        border-bottom-color: transparent;
+    }
+}
+
+/* Стили для широкого модального окна */
+.modal .modal-dialog {
+    max-width: 95vw; /* Возвращаем к базовому значению */
+    width: 95vw;
+}
+
+.modal .modal-body {
+    max-height: 95vh;
+    padding: 25px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Специальные стили для модального окна прогноза сбыта */
+#modal-overlay .modal .modal-dialog {
+    max-width: none; /* Убираем ограничение по максимальной ширине */
+    width: 95vw; /* Возвращаем к 95vw для стабильности */
+    margin: 20px auto; /* Увеличиваем отступы от краев экрана */
+}
+
+#modal-overlay .modal .modal-body {
+    max-height: 90vh; /* Уменьшаем для лучшей прокрутки */
+    padding: 15px; /* Уменьшаем отступы */
+    overflow-y: auto; /* Обеспечиваем вертикальную прокрутку */
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+    position: relative; /* Для правильного позиционирования */
+}
+
+/* Дополнительные стили для очень широких окон */
+@media (min-width: 1400px) {
+    #modal-overlay .modal .modal-dialog {
+        width: 1200px; /* Уменьшаем фиксированную ширину */
+    }
+}
+
+/* Цветовые акценты для разных брендов */
+#wolf-honey-tab .brand-header {
+    background: linear-gradient(135deg, #f5f5dc, #faf0e6);
+    border-color: #d2b48c;
+}
+
+#desnyansky-honey-tab .brand-header {
+    background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+    border-color: #4169e1;
+}
+
+#wolf-honey-tab .summary-value {
+    color: #8b4513;
+}
+
+#desnyansky-honey-tab .summary-value {
+    color: #4169e1;
+}
+
+#wolf-honey-tab .slider::-webkit-slider-thumb {
+    background: #8b4513;
+}
+
+#desnyansky-honey-tab .slider::-webkit-slider-thumb {
+    background: #4169e1;
+}
+
+/* Стили для улучшенной прокрутки */
+#modal-overlay .modal .modal-body {
+    scrollbar-width: thin; /* Тонкая полоса прокрутки в Firefox */
+    scrollbar-color: #007bff #f1f1f1; /* Цвета полосы прокрутки в Firefox */
+}
+
+/* Стили для Webkit браузеров (Chrome, Safari) */
+#modal-overlay .modal .modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+#modal-overlay .modal .modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+#modal-overlay .modal .modal-body::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 4px;
+}
+
+#modal-overlay .modal .modal-body::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    #modal-overlay .modal .modal-body {
+        max-height: 85vh; /* На мобильных устройствах оставляем больше места */
+        padding: 10px; /* Уменьшаем отступы на мобильных */
+    }
+}

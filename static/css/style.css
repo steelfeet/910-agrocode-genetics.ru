@@ -1,0 +1,1847 @@
+/* Сброс стилей и базовые настройки */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 206, 84, 0.1) 0%, transparent 50%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Эффект старой бумаги */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4c4a8' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: -1;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+}
+
+/* Фон с поляной */
+.background {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.field {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-image: 
+        linear-gradient(to top, 
+            rgba(139, 69, 19, 0.6) 0%,    /* Темный низ для эффекта глубины */
+            rgba(34, 139, 34, 0.4) 15%,   /* Насыщенный зеленоватый оттенок */
+            rgba(34, 139, 34, 0.2) 35%,   /* Слабый зеленый */
+            rgba(34, 139, 34, 0.1) 60%,   /* Дополнительный этап расплывания */
+            transparent 100%),             /* Полностью прозрачный верх */
+        url('/static/img/q0aaq6mc.jpg');
+    background-size: 100% 100%, 100% 100%;  /* Растягиваем текстуру на все поле */
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;  /* Градиент и текстура не повторяются */
+    background-blend-mode: multiply, normal;
+}
+
+/* Небо с солнцем и облаками */
+.sky {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to bottom, 
+        #87CEEB 0%, 
+        #98D8C8 50%, 
+        #B0E0E6 100%);
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Солнце */
+.sun {
+    position: absolute;
+    top: 40%;
+    right: 15%;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, #FFD700, #FFA500);
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    animation: sun-pulse 4s ease-in-out infinite;
+}
+
+/* Облака - улучшенная версия */
+.cloud {
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.9;
+    animation: cloud-move linear infinite;
+}
+
+/* Первое облако - большое и сложное */
+.cloud-1 {
+    width: 140px;
+    height: 60px;
+    top: 50%;
+    left: -160px;
+    animation-duration: 60s;
+    animation-delay: 0s;
+}
+
+.cloud-1::before {
+    content: '';
+    width: 70px;
+    height: 70px;
+    top: -35px;
+    left: 20px;
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+}
+
+.cloud-1::after {
+    content: '';
+    width: 80px;
+    height: 60px;
+    top: -25px;
+    right: 20px;
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+}
+
+/* Дополнительные детали для облака 1 */
+.cloud-1 {
+    position: absolute;
+}
+
+.cloud-1::before {
+    content: '';
+}
+
+.cloud-1::after {
+    content: '';
+}
+
+/* Второе облако - среднее и сложное */
+.cloud-2 {
+    width: 110px;
+    height: 55px;
+    top: 45%;
+    left: -130px;
+    animation-duration: 70s;
+    animation-delay: -20s;
+}
+
+.cloud-2::before {
+    content: '';
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 25px;
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+}
+
+.cloud-2::after {
+    content: '';
+    width: 65px;
+    height: 55px;
+    top: -20px;
+    right: 25px;
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+}
+
+/* Третье облако - самое большое и сложное */
+.cloud-3 {
+    width: 160px;
+    height: 65px;
+    top: 55%;
+    left: -180px;
+    animation-duration: 80s;
+    animation-delay: -40s;
+}
+
+.cloud-3::before {
+    content: '';
+    width: 80px;
+    height: 80px;
+    top: -40px;
+    left: 30px;
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+}
+
+.cloud-3::after {
+    content: '';
+    width: 90px;
+    height: 70px;
+    top: -30px;
+    right: 30px;
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+}
+
+/* Линия горизонта */
+.horizon-line {
+    position: absolute;
+    bottom: 40%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.8) 20%, 
+        rgba(255, 255, 255, 0.8) 80%, 
+        transparent 100%);
+    z-index: 2;
+}
+
+/* Эффект затемнения при затмении солнца облаками */
+.eclipse-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 5;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* Деревья в стиле учебника */
+.tree {
+    position: absolute;
+    cursor: pointer;
+    transition: all 0.8s ease;
+    z-index: 10; /* Выводим деревья поверх неба */
+}
+
+.tree:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.tree-crown {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 
+        inset 0 0 20px rgba(0,0,0,0.2),
+        0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.8s ease;
+}
+
+.tree-trunk {
+    width: 15px;
+    height: 60px;
+    background: linear-gradient(to bottom, #8B4513, #654321);
+    margin: 0 auto;
+    border-radius: 0 0 5px 5px;
+    position: relative;
+    top: -10px;
+    transition: all 0.8s ease;
+}
+
+/* Сезонные изменения для деревьев */
+
+/* Весна - цветение */
+.spring .tree-crown {
+    background: radial-gradient(circle at 30% 30%, #FFB6C1, #FF69B4, #FFC0CB);
+    animation: bloom 2s ease-in-out infinite alternate;
+}
+
+.spring .apple-tree .tree-crown {
+    /* Сезонные стили убраны - теперь используется изображение */
+}
+
+/* Сезонные стили для вишни убраны - теперь используются изображения */
+
+/* Сезонные стили для груши убраны - теперь используется изображение */
+
+/* Лето - зеленая листва */
+.summer .tree-crown {
+    background: radial-gradient(circle, #32CD32, #228B22, #006400);
+    animation: sway 4s ease-in-out infinite;
+}
+
+.summer .apple-tree .tree-crown {
+    /* Сезонные стили убраны - теперь используется изображение */
+}
+
+/* Летние стили для вишни убраны - теперь используются изображения */
+
+/* Летние стили для груши убраны - теперь используется изображение */
+
+/* Осень - желтые и красные листья */
+.autumn .tree-crown {
+    background: radial-gradient(circle, #FFD700, #FF8C00, #DC143C);
+    animation: autumn-sway 5s ease-in-out infinite;
+}
+
+.autumn .apple-tree .tree-crown {
+    /* Сезонные стили убраны - теперь используется изображение */
+}
+
+/* Осенние стили для вишни убраны - теперь используются изображения */
+
+/* Осенние стили для груши убраны - теперь используется изображение */
+
+/* Зима - голые ветки */
+.winter .tree-crown {
+    opacity: 0.1;
+    background: radial-gradient(circle, #696969, #2F4F4F, #1C1C1C);
+    animation: winter-rustle 6s ease-in-out infinite;
+}
+
+.winter .tree-trunk {
+    background: linear-gradient(to bottom, #654321, #4A2C17, #2F1B14);
+}
+
+.winter .apple-tree .tree-crown {
+    opacity: 0.05; /* Зимний эффект прозрачности сохранен */
+}
+
+/* Зимние стили для вишни убраны - теперь используются изображения */
+
+/* Зимние стили для груши убраны - теперь используется изображение */
+
+/* Конкретные деревья */
+.apple-tree {
+    left: 0%;
+    top: 25%;
+}
+
+.apple-tree .tree-crown {
+    background: none;
+    background-image: url('/static/img/7d125ebedaa511f08d6bf61bfd1d9f6b_1-removebg-preview.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 504px;
+    height: 529px;
+    border-radius: 0;
+    box-shadow: none;
+    /* Новая уникальная анимация яблони */
+    animation: apple-gentle-sway 7s ease-in-out infinite;
+    transform-origin: 50% 100%; /* Точно основание дерева */
+}
+
+/* Убираем ствол для яблони */
+.apple-tree .tree-trunk {
+    display: none;
+}
+
+/* Убираем анимацию яблони при наведении мыши */
+.apple-tree:hover {
+    transform: none;
+    filter: none;
+}
+
+.cherry-tree {
+    left: 20%;
+    top: 4%;
+}
+
+/* Подготовлено для изображений вишни - увеличенный размер без ствола и круга */
+.cherry-tree .tree-crown {
+    background: none;
+    background-image: url('/static/img/cherry-winter-removebg-preview.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 480px;  /* увеличено в 6 раз с 80px (в 3 раза от текущего 160px) */
+    height: 480px; /* увеличено в 6 раз с 80px (в 3 раза от текущего 160px) */
+    border-radius: 0; /* убираем круглую форму */
+}
+
+/* Убираем ствол для вишни */
+.cherry-tree .tree-trunk {
+    display: none;
+}
+
+/* Убираем box-shadow для вишни */
+.cherry-tree .tree-crown {
+    box-shadow: none;
+}
+
+/* Исключаем вишню из зимних стилей ствола */
+.winter .cherry-tree .tree-trunk {
+    display: none;
+}
+
+/* Исключаем яблоню из зимних стилей ствола */
+.winter .apple-tree .tree-trunk {
+    display: none;
+}
+
+/* Естественная анимация качания деревьев с изгибом ствола и учетом ветра */
+@keyframes natural-tree-sway {
+    0% { 
+        transform: rotate(calc(0deg + var(--phase-offset, 0deg))) translateX(calc(0px + var(--sway-offset, 0px) * var(--sway-direction, 1)));
+    }
+    25% { 
+        transform: rotate(calc(1.5deg + var(--sway-amplitude, 0deg) + var(--phase-offset, 0deg))) translateX(calc(-2px + var(--sway-offset, 0px) + var(--sway-offset, 0px) * var(--sway-direction, 1)));
+    }
+    50% { 
+        transform: rotate(calc(0.5deg + var(--sway-amplitude, 0deg) * 0.5 + var(--phase-offset, 0deg))) translateX(calc(-1px + var(--sway-offset, 0px) * 0.5 + var(--sway-offset, 0px) * var(--sway-direction, 1)));
+    }
+    75% { 
+        transform: rotate(calc(-1.5deg - var(--sway-amplitude, 0deg) + var(--phase-offset, 0deg))) translateX(calc(2px - var(--sway-offset, 0px) + var(--sway-offset, 0px) * var(--sway-direction, 1)));
+    }
+    100% {
+        transform: rotate(calc(0deg + var(--phase-offset, 0deg))) translateX(calc(0px + var(--sway-offset, 0px) * var(--sway-direction, 1)));
+    }
+}
+
+/* Новая анимация яблони - плавное покачивание с растяжением и учетом ветра */
+@keyframes apple-gentle-sway {
+    0% { 
+        transform: rotate(calc(0deg + var(--phase-offset, 0deg))) scaleY(1);
+    }
+    25% { 
+        transform: rotate(calc(2.5deg + var(--sway-amplitude, 0deg) + var(--phase-offset, 0deg))) scaleY(calc(1.02 + var(--wind-intensity, 0) * 0.01));
+    }
+    50% { 
+        transform: rotate(calc(1deg + var(--sway-amplitude, 0deg) * 0.6 + var(--phase-offset, 0deg))) scaleY(calc(1.01 + var(--wind-intensity, 0) * 0.005));
+    }
+    75% { 
+        transform: rotate(calc(-2.5deg - var(--sway-amplitude, 0deg) + var(--phase-offset, 0deg))) scaleY(calc(1.02 + var(--wind-intensity, 0) * 0.01));
+    }
+    100% {
+        transform: rotate(calc(0deg + var(--phase-offset, 0deg))) scaleY(1);
+    }
+}
+
+/* Применяем естественную анимацию качания к вишне */
+.cherry-tree .tree-crown {
+    animation: natural-tree-sway 6s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+    transform-origin: 50% 100%; /* Точно основание дерева */
+}
+
+/* Убираем анимацию вишни при наведении мыши */
+.cherry-tree:hover {
+    transform: none;
+    filter: none;
+}
+
+.pear-tree {
+    right: 10%;
+    top: 25%;
+}
+
+.pear-tree .tree-crown {
+    background: none;
+    background-image: url('/static/img/IMG_20251216_144451-removebg-preview-blooming.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 360px; /* уменьшено в 2 раза с 720px */
+    height: 360px; /* уменьшено в 2 раза с 720px */
+    border-radius: 0; /* убираем круглую форму */
+    box-shadow: none; /* убираем тень как у вишни */
+    /* Естественная анимация качания с изгибом ствола */
+    animation: natural-tree-sway 6.5s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+    transform-origin: 50% 100%; /* Точно основание дерева */
+}
+
+/* Убираем ствол для груши */
+.pear-tree .tree-trunk {
+    display: none;
+}
+
+/* Убираем анимацию груши при наведении мыши */
+.pear-tree:hover {
+    transform: none;
+    filter: none;
+}
+
+
+
+/* Улья */
+.hives-container {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 30px;
+}
+
+.hive {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10; /* Улья тоже на верхнем плане */
+}
+
+.hive:hover {
+    transform: translateY(-5px);
+    filter: brightness(1.1);
+}
+
+.hive-body {
+    width: 80px;
+    height: 100px;
+    background: linear-gradient(to bottom, #FFD700, #DAA520);
+    border-radius: 50% 50% 10% 10%;
+    position: relative;
+    box-shadow: 
+        inset 0 0 20px rgba(0,0,0,0.2),
+        0 8px 20px rgba(0,0,0,0.3);
+    border: 3px solid #B8860B;
+}
+
+.hive-entrance {
+    width: 12px;
+    height: 20px;
+    background: #2F4F4F;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Панель управления */
+.ui-panel {
+    width: 320px;
+    background: linear-gradient(145deg, #F5E6D3, #E6D7C3);
+    border-left: 4px solid #8B4513;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 10;
+}
+
+.ui-content {
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Кнопки в стиле советских учебников */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    margin: 10px 0;
+    background: linear-gradient(to bottom, #FFF8DC, #F5DEB3);
+    border: 2px solid #8B4513;
+    border-radius: 8px;
+    color: #2F4F4F;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover {
+    background: linear-gradient(to bottom, #FFFACD, #F0E68C);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.btn-primary {
+    background: linear-gradient(to bottom, #98FB98, #32CD32);
+    border-color: #228B22;
+    color: #006400;
+}
+
+.btn-danger {
+    background: linear-gradient(to bottom, #FFB6C1, #FF69B4);
+    border-color: #DC143C;
+    color: #8B0000;
+}
+
+.btn-secondary {
+    background: linear-gradient(to bottom, #E6E6FA, #D8BFD8);
+    border-color: #4B0082;
+    color: #2F4F4F;
+}
+
+/* Информационная панель */
+.info-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 320px;
+    background: linear-gradient(to right, rgba(245, 230, 211, 0.9), rgba(230, 215, 195, 0.9));
+    padding: 15px 20px;
+    border-bottom: 2px solid #8B4513;
+    backdrop-filter: blur(5px);
+    z-index: 20;
+}
+
+.game-info {
+    display: flex;
+    gap: 30px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    color: #2F4F4F;
+}
+
+.game-info span {
+    padding: 5px 10px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 5px;
+    border: 1px solid rgba(139, 69, 19, 0.3);
+}
+
+/* Модальные окна */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background: linear-gradient(145deg, #F5E6D3, #E6D7C3);
+    border: 3px solid #8B4513;
+    border-radius: 15px;
+    max-width: 600px;
+    /* max-height: 80vh; */
+    overflow: hidden;
+    transform: scale(0.7);
+    transition: transform 0.3s ease;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* Модальное окно настроек на 90% ширины экрана */
+.modal.settings-modal {
+    max-width: 90vw;
+    width: 90%;
+    max-height: 85vh;
+}
+
+.modal-overlay.show .modal {
+    transform: scale(1);
+}
+
+.modal-header {
+    background: linear-gradient(to bottom, #8B4513, #654321);
+    color: white;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.modal-close:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.modal-body {
+    padding: 30px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Формы */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2F4F4F;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Source Sans Pro', sans-serif;
+    background: rgba(255,255,255,0.8);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #8B4513;
+    box-shadow: 0 0 10px rgba(139, 69, 19, 0.3);
+}
+
+/* Списки */
+.list-group {
+    list-style: none;
+    margin: 20px 0;
+}
+
+.list-group-item {
+    padding: 15px;
+    margin: 10px 0;
+    background: rgba(255,255,255,0.5);
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+    background: rgba(255,255,255,0.8);
+    transform: translateX(5px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+/* Статистика */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.stat-card {
+    background: rgba(255,255,255,0.6);
+    border: 2px solid #D2691E;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #8B4513;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #2F4F4F;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* Утилиты */
+.hidden {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .ui-panel {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        border-left: none;
+        border-top: 4px solid #8B4513;
+    }
+    
+    .info-panel {
+        right: 0;
+    }
+    
+    .modal {
+        margin: 20px;
+        max-width: calc(100% - 40px);
+    }
+}
+
+@media (max-width: 768px) {
+    .field {
+        height: 60vh;
+    }
+    
+    .hives-container {
+        bottom: 10%;
+        gap: 15px;
+    }
+    
+    .hive-body {
+        width: 60px;
+        height: 75px;
+    }
+    
+    .tree-crown {
+        width: 60px;
+        height: 60px;
+    }
+    
+    
+    
+    .game-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+/* Сезонные анимации деревьев */
+
+/* Весеннее цветение */
+@keyframes bloom {
+    0% { 
+        transform: scale(1) rotate(0deg);
+        filter: brightness(1) saturate(1);
+    }
+    50% { 
+        transform: scale(1.1) rotate(2deg);
+        filter: brightness(1.2) saturate(1.3);
+    }
+    100% { 
+        transform: scale(1.05) rotate(-1deg);
+        filter: brightness(1.1) saturate(1.2);
+    }
+}
+
+/* Летнее покачивание листвы */
+@keyframes sway {
+    0%, 100% { 
+        transform: rotate(0deg);
+        filter: brightness(1);
+    }
+    25% { 
+        transform: rotate(1deg);
+        filter: brightness(1.05);
+    }
+    75% { 
+        transform: rotate(-1deg);
+        filter: brightness(0.95);
+    }
+}
+
+/* Осеннее покачивание с опадающими листьями */
+@keyframes autumn-sway {
+    0%, 100% { 
+        transform: rotate(0deg);
+        filter: brightness(1);
+    }
+    25% { 
+        transform: rotate(2deg);
+        filter: brightness(0.9);
+    }
+    50% { 
+        transform: rotate(1deg);
+        filter: brightness(0.8);
+    }
+    75% { 
+        transform: rotate(-2deg);
+        filter: brightness(0.85);
+    }
+}
+
+/* Зимнее покачивание голых веток */
+@keyframes winter-rustle {
+    0%, 100% { 
+        transform: rotate(0deg);
+        filter: brightness(0.8);
+    }
+    50% { 
+        transform: rotate(3deg);
+        filter: brightness(0.7);
+    }
+}
+
+/* Анимация падающих листьев (осень) */
+.falling-leaves {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background: #DAA520;
+    border-radius: 50%;
+    animation: fall 8s linear infinite;
+    opacity: 0.7;
+}
+
+/* Базовая структура цветков с анимацией */
+.flower {
+    position: absolute;
+    animation: gentle-sway 3s ease-in-out infinite alternate;
+    transition: transform 0.3s ease;
+}
+
+/* Цветки на поле с лепестками */
+.field-flowers {
+    position: absolute;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.flower:hover {
+    transform: scale(1.1);
+}
+
+/* Базовая структура цветка с лепестками */
+.flower::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.flower::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 2;
+}
+
+/* Ромашка (daisy) - белые лепестки с желтой серединкой */
+.flower-daisy {
+    width: 36px;
+    height: 36px;
+}
+
+.flower-daisy::before {
+    width: 36px;
+    height: 36px;
+    background: radial-gradient(circle, 
+        #FFFFFF 30%, 
+        #F8F8F8 50%, 
+        #F0F0F0 70%, 
+        #E8E8E8 85%, 
+        #E0E0E0 100%);
+    /* Создаем 6 лепестков с увеличенным разбросом */
+    box-shadow: 
+        /* Центральные лепестки */
+        0 0 0 2px #FFFFFF,
+        0 0 0 4px #F8F8F8,
+        0 0 0 6px #F0F0F0,
+        0 0 0 8px #E8E8E8,
+        0 0 0 10px #E0E0E0,
+        0 0 0 12px #D8D8D8,
+        /* Внешние лепестки под углом - увеличенный разброс */
+        4px -4px 0 1px #FFFFFF,
+        6px -6px 0 2px #F8F8F8,
+        8px -8px 0 3px #F0F0F0,
+        -4px -4px 0 1px #FFFFFF,
+        -6px -6px 0 2px #F8F8F8,
+        -8px -8px 0 3px #F0F0F0,
+        4px 4px 0 1px #FFFFFF,
+        6px 6px 0 2px #F8F8F8,
+        8px 8px 0 3px #F0F0F0,
+        -4px 4px 0 1px #FFFFFF,
+        -6px 6px 0 2px #F8F8F8,
+        -8px 8px 0 3px #F0F0F0,
+        /* Дополнительные дальние лепестки */
+        0px -12px 0 1px #F5F5F5,
+        0px -16px 0 2px #EEEEEE,
+        12px 0px 0 1px #F5F5F5,
+        16px 0px 0 2px #EEEEEE,
+        0px 12px 0 1px #F5F5F5,
+        0px 16px 0 2px #EEEEEE,
+        -12px 0px 0 1px #F5F5F5,
+        -16px 0px 0 2px #EEEEEE;
+}
+
+.flower-daisy::after {
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, 
+        #FFD700 0%, 
+        #FFA500 40%, 
+        #FF8C00 70%, 
+        #FF7F00 100%);
+    box-shadow: 
+        0 0 4px rgba(255, 215, 0, 0.8),
+        0 0 8px rgba(255, 215, 0, 0.5),
+        0 0 12px rgba(255, 165, 0, 0.2);
+}
+
+/* Тюльпан (tulip) - красные лепестки */
+.flower-tulip {
+    width: 28px;
+    height: 42px;
+}
+
+.flower-tulip::before {
+    width: 28px;
+    height: 42px;
+    background: linear-gradient(180deg, 
+        #FF69B4 0%, 
+        #FF1493 15%, 
+        #DC143C 40%, 
+        #B22222 70%, 
+        #8B0000 100%);
+    border-radius: 50% 50% 25% 25% / 75% 75% 25% 25%;
+    /* Создаем 3 основных лепестка с увеличенным разбросом */
+    box-shadow: 
+        /* Центральный лепесток */
+        0 0 0 1px #FF69B4,
+        0 0 0 3px #FF1493,
+        0 0 0 5px #DC143C,
+        0 0 0 7px #B22222,
+        /* Левый лепесток - увеличенный разброс */
+        -6px -2px 0 1px #FF69B4,
+        -8px -4px 0 2px #FF1493,
+        -10px -6px 0 3px #DC143C,
+        -12px -8px 0 4px #B22222,
+        /* Правый лепесток - увеличенный разброс */
+        6px -2px 0 1px #FF69B4,
+        8px -4px 0 2px #FF1493,
+        10px -6px 0 3px #DC143C,
+        12px -8px 0 4px #B22222,
+        /* Дополнительные боковые лепестки */
+        -4px 2px 0 1px #FF69B4,
+        -6px 4px 0 2px #FF1493,
+        4px 2px 0 1px #FF69B4,
+        6px 4px 0 2px #FF1493,
+        /* Дополнительные детали */
+        0 3px 6px rgba(255, 20, 147, 0.3),
+        -3px 4px 8px rgba(220, 20, 60, 0.2),
+        3px 4px 8px rgba(220, 20, 60, 0.2);
+}
+
+.flower-tulip::after {
+    width: 5px;
+    height: 5px;
+    background: radial-gradient(circle, 
+        #4B0082 0%, 
+        #2F2F2F 50%, 
+        #1C1C1C 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(75, 0, 130, 0.5);
+}
+
+/* Мак (poppy) - красные лепестки с черной серединкой */
+.flower-poppy {
+    width: 32px;
+    height: 32px;
+}
+
+.flower-poppy::before {
+    width: 32px;
+    height: 32px;
+    background: radial-gradient(circle, 
+        #FF4500 15%, 
+        #FF6347 25%, 
+        #DC143C 45%, 
+        #B22222 70%, 
+        #8B0000 90%, 
+        #660000 100%);
+    /* Создаем 4 основных лепестка мака с увеличенным разбросом */
+    box-shadow: 
+        /* Центральная часть */
+        0 0 0 2px #FF4500,
+        0 0 0 4px #FF6347,
+        0 0 0 6px #DC143C,
+        0 0 0 8px #B22222,
+        0 0 0 10px #8B0000,
+        /* 4 лепестка под углом 90 градусов - увеличенный разброс */
+        0 -12px 0 1px #FF6347,
+        0 -16px 0 2px #FF4500,
+        0 -20px 0 3px #DC143C,
+        12px 0 0 1px #FF6347,
+        16px 0 0 2px #FF4500,
+        20px 0 0 3px #DC143C,
+        0 12px 0 1px #FF6347,
+        0 16px 0 2px #FF4500,
+        0 20px 0 3px #DC143C,
+        -12px 0 0 1px #FF6347,
+        -16px 0 0 2px #FF4500,
+        -20px 0 0 3px #DC143C,
+        /* Дополнительные диагональные лепестки */
+        -8px -8px 0 1px #FF6347,
+        -12px -12px 0 2px #FF4500,
+        8px -8px 0 1px #FF6347,
+        12px -12px 0 2px #FF4500,
+        -8px 8px 0 1px #FF6347,
+        -12px 12px 0 2px #FF4500,
+        8px 8px 0 1px #FF6347,
+        12px 12px 0 2px #FF4500;
+}
+
+.flower-poppy::after {
+    width: 5px;
+    height: 5px;
+    background: radial-gradient(circle, 
+        #000000 0%, 
+        #2F2F2F 30%, 
+        #4A4A4A 60%, 
+        #696969 100%);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 2px rgba(0, 0, 0, 0.8),
+        0 0 4px rgba(0, 0, 0, 0.5),
+        0 0 6px rgba(47, 47, 47, 0.2);
+}
+
+/* Василек (cornflower) - синие лепестки */
+.flower-cornflower {
+    width: 26px;
+    height: 38px;
+}
+
+.flower-cornflower::before {
+    width: 26px;
+    height: 38px;
+    background: linear-gradient(180deg, 
+        #4169E1 0%, 
+        #1E90FF 20%, 
+        #0000CD 40%, 
+        #191970 70%, 
+        #0F0F3D 100%);
+    border-radius: 50% 50% 20% 20% / 80% 80% 20% 20%;
+    /* Создаем 5 лепестков василька с увеличенным разбросом */
+    clip-path: polygon(50% 0%, 75% 10%, 90% 25%, 95% 45%, 90% 65%, 75% 80%, 50% 95%, 25% 80%, 10% 65%, 5% 45%, 10% 25%, 25% 10%);
+    box-shadow: 
+        /* Центральная часть */
+        0 0 0 1px #4169E1,
+        0 0 0 3px #1E90FF,
+        0 0 0 5px #0000CD,
+        0 0 0 7px #191970,
+        /* 5 лепестков по кругу - увеличенный разброс */
+        0 -10px 0 1px #4169E1,
+        0 -14px 0 2px #1E90FF,
+        8px -5px 0 1px #4169E1,
+        12px -7px 0 2px #1E90FF,
+        10px 0px 0 1px #4169E1,
+        14px 0px 0 2px #1E90FF,
+        8px 5px 0 1px #4169E1,
+        12px 7px 0 2px #1E90FF,
+        0px 10px 0 1px #4169E1,
+        0px 14px 0 2px #1E90FF,
+        -8px 5px 0 1px #4169E1,
+        -12px 7px 0 2px #1E90FF,
+        -10px 0px 0 1px #4169E1,
+        -14px 0px 0 2px #1E90FF,
+        -8px -5px 0 1px #4169E1,
+        -12px -7px 0 2px #1E90FF,
+        /* Дополнительные дальние лепестки */
+        0 -18px 0 1px #4169E1,
+        0 -22px 0 1px #1E90FF,
+        18px 0px 0 1px #4169E1,
+        22px 0px 0 1px #1E90FF,
+        0px 18px 0 1px #4169E1,
+        0px 22px 0 1px #1E90FF,
+        -18px 0px 0 1px #4169E1,
+        -22px 0px 0 1px #1E90FF,
+        /* Дополнительные тени */
+        0 3px 6px rgba(65, 105, 225, 0.4),
+        3px 4px 8px rgba(30, 144, 255, 0.2),
+        -3px 4px 8px rgba(30, 144, 255, 0.2);
+}
+
+.flower-cornflower::after {
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, 
+        #191970 0%, 
+        #000080 50%, 
+        #000060 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(25, 25, 112, 0.6);
+}
+
+/* Лаванда (lavender) - фиолетовые соцветия */
+.flower-lavender {
+    width: 24px;
+    height: 42px;
+}
+
+.flower-lavender::before {
+    width: 24px;
+    height: 42px;
+    background: linear-gradient(180deg, 
+        #9370DB 0%, 
+        #8A2BE2 15%, 
+        #7B68EE 30%, 
+        #6A5ACD 50%, 
+        #5A4A87 70%, 
+        #4B0082 100%);
+    border-radius: 50%;
+    /* Создаем 7 мелких соцветий лаванды с увеличенным разбросом */
+    clip-path: polygon(50% 0%, 70% 6%, 80% 15%, 85% 30%, 80% 45%, 70% 60%, 50% 70%, 30% 60%, 20% 45%, 15% 30%, 20% 15%, 30% 6%);
+    box-shadow: 
+        /* Центральное соцветие */
+        0 0 0 1px #9370DB,
+        0 0 0 2px #8A2BE2,
+        0 0 0 3px #7B68EE,
+        /* 7 соцветий лаванды по вертикали - увеличенный разброс */
+        0 -16px 0 1px #9370DB,
+        0 -14px 0 1px #8A2BE2,
+        -3px -12px 0 1px #9370DB,
+        -2px -10px 0 1px #8A2BE2,
+        3px -12px 0 1px #9370DB,
+        2px -10px 0 1px #8A2BE2,
+        0 -8px 0 1px #9370DB,
+        0 -6px 0 1px #8A2BE2,
+        -3px -4px 0 1px #9370DB,
+        -2px -2px 0 1px #8A2BE2,
+        3px -4px 0 1px #9370DB,
+        2px -2px 0 1px #8A2BE2,
+        0px 2px 0 1px #9370DB,
+        0px 4px 0 1px #8A2BE2,
+        -3px 6px 0 1px #9370DB,
+        -2px 8px 0 1px #8A2BE2,
+        3px 6px 0 1px #9370DB,
+        2px 8px 0 1px #8A2BE2,
+        0px 10px 0 1px #9370DB,
+        0px 12px 0 1px #8A2BE2,
+        0px 14px 0 1px #9370DB,
+        0px 16px 0 1px #8A2BE2,
+        /* Дополнительные боковые соцветия */
+        -6px -8px 0 1px #9370DB,
+        -8px -6px 0 1px #8A2BE2,
+        6px -8px 0 1px #9370DB,
+        8px -6px 0 1px #8A2BE2,
+        -6px 8px 0 1px #9370DB,
+        -8px 10px 0 1px #8A2BE2,
+        6px 8px 0 1px #9370DB,
+        8px 10px 0 1px #8A2BE2,
+        /* Дополнительные тени */
+        0 4px 8px rgba(138, 43, 226, 0.3),
+        3px 5px 10px rgba(123, 104, 238, 0.2),
+        -3px 5px 10px rgba(123, 104, 238, 0.2);
+}
+
+.flower-lavender::after {
+    width: 3px;
+    height: 12px;
+    background: linear-gradient(180deg, 
+        #2F4F2F 0%, 
+        #228B22 50%, 
+        #32CD32 100%);
+    border-radius: 2px;
+    top: 85%;
+    box-shadow: 0 1px 3px rgba(47, 79, 47, 0.5);
+}
+
+/* Анимация легкого покачивания цветков */
+@keyframes gentle-sway {
+    0% {
+        transform: rotate(-2deg) translateY(0px);
+    }
+    100% {
+        transform: rotate(2deg) translateY(-2px);
+    }
+}
+
+.falling-leaves::before,
+.falling-leaves::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: inherit;
+    border-radius: 50%;
+    animation: fall 6s linear infinite reverse;
+}
+
+.falling-leaves::before {
+    left: -8px;
+    animation-delay: -2s;
+}
+
+.falling-leaves::after {
+    right: -8px;
+    animation-delay: -4s;
+}
+
+@keyframes fall {
+    0% { 
+        transform: translateY(-20px) translateX(0px) rotate(0deg);
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(120px) translateX(20px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Анимация снежинок (зима) */
+.snowflakes {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    animation: snowfall 10s linear infinite;
+    box-shadow: 0 0 6px rgba(255,255,255,0.8);
+}
+
+.snowflakes::before,
+.snowflakes::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: inherit;
+    border-radius: 50%;
+    animation: snowfall 8s linear infinite reverse;
+}
+
+.snowflakes::before {
+    left: -12px;
+    animation-delay: -3s;
+}
+
+.snowflakes::after {
+    right: -12px;
+    animation-delay: -6s;
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translateY(-20px) translateX(0px);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(150px) translateX(-30px);
+        opacity: 0;
+    }
+}
+
+/* Старые стили пчел (заменены на новую систему) */
+.bee-animation {
+    /* Удалено - заменено на .bee-flight */
+}
+
+/* Новая система полета пчел */
+.bee-flight {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #FFD700; /* Золотистый цвет пчелы */
+    border-radius: 50%;
+    border: 1px solid #000;
+    transform-origin: center center;
+    will-change: transform, left, top, background-color, box-shadow;
+    transition: all 0.3s ease;
+}
+
+/* Крылья пчелы */
+.bee-flight::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -1px;
+    width: 4px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: bee-wing-left 0.1s ease-in-out infinite alternate;
+}
+
+.bee-flight::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -1px;
+    width: 4px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: bee-wing-right 0.1s ease-in-out infinite alternate;
+}
+
+/* Визуальные эффекты в зависимости от освещенности */
+.bee-flight.eclipse-mode {
+    /* При затмении - более тусклое свечение */
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
+    filter: brightness(0.8);
+}
+
+.bee-flight.bright-sun-mode {
+    /* При ярком солнце - яркое свечение */
+    box-shadow: 0 0 12px rgba(255, 215, 0, 1);
+    filter: brightness(1.2);
+}
+
+/* Анимация крыльев пчелы */
+@keyframes bee-wing-flutter {
+    0% { 
+        transform: translate(-50%, -50%) scaleY(1);
+    }
+    100% { 
+        transform: translate(-50%, -50%) scaleY(1.2);
+    }
+}
+
+@keyframes bee-wing-left {
+    0% { 
+        transform: rotate(-15deg);
+    }
+    100% { 
+        transform: rotate(15deg);
+    }
+}
+
+@keyframes bee-wing-right {
+    0% { 
+        transform: rotate(15deg);
+    }
+    100% { 
+        transform: rotate(-15deg);
+    }
+}
+
+/* Эффект свечения для пчелы */
+.bee-flight:hover {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Пчела на цветке - измененный цвет */
+.bee-flight.sitting-on-flower {
+    animation: bee-sitting 0.5s ease-in-out;
+}
+
+/* Анимация сидения на цветке */
+@keyframes bee-sitting {
+    0% { 
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    100% { 
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Анимация пульсации солнца */
+@keyframes sun-pulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 0 40px rgba(255, 215, 0, 1);
+    }
+}
+
+/* Анимация движения облаков */
+@keyframes cloud-move {
+    0% { 
+        transform: translateX(0);
+    }
+    100% { 
+        transform: translateX(calc(100vw + 200px));
+    }
+}
+
+/* Стили для прогноза сбыта */
+.sales-forecast {
+    max-width: 100%;
+    width: 100%;
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+}
+
+.forecast-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+    color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.tab-button.active {
+    background: #fff;
+    color: #007bff;
+    border-bottom-color: #007bff;
+}
+
+.forecast-tab {
+    display: none;
+}
+
+.forecast-tab.active {
+    display: block;
+}
+
+.brand-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.brand-header h5 {
+    margin: 0 0 8px 0;
+    color: #495057;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.brand-slogan {
+    margin: 0;
+    color: #6c757d;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.chart-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+    width: 100%;
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+}
+
+.chart-container canvas {
+    flex: 1;
+    max-width: 800px; /* Увеличено в 2 раза с 400px до 800px */
+    width: 100%; /* Занимает всю доступную ширину */
+    height: 300px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background: #fff;
+    min-width: 600px; /* Минимальная ширина для читаемости */
+}
+
+.summary-panel {
+    min-width: 200px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.summary-item:last-child {
+    margin-bottom: 0;
+}
+
+.summary-label {
+    font-weight: 500;
+    color: #495057;
+    font-size: 14px;
+}
+
+.summary-value {
+    font-weight: 600;
+    color: #007bff;
+    font-size: 14px;
+}
+
+.controls-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.control-group label {
+    min-width: 140px;
+    font-weight: 500;
+    color: #495057;
+    margin: 0;
+}
+
+.control-group .slider {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: #dee2e6;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.control-group .slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.control-group .slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.slider-value {
+    min-width: 80px;
+    font-weight: 600;
+    color: #007bff;
+    text-align: right;
+    font-size: 14px;
+}
+
+/* Адаптивные стили для прогноза сбыта */
+@media (max-width: 768px) {
+    .chart-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .chart-container canvas {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .summary-panel {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .control-group {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .control-group label {
+        min-width: auto;
+        margin-bottom: 8px;
+    }
+    
+    .slider-value {
+        text-align: center;
+        margin-top: 5px;
+    }
+    
+    .forecast-tabs {
+        flex-direction: column;
+    }
+    
+    .tab-button {
+        border-bottom: none;
+        border-right: 3px solid transparent;
+    }
+    
+    .tab-button.active {
+        border-right-color: #007bff;
+        border-bottom-color: transparent;
+    }
+}
+
+/* Стили для широкого модального окна */
+.modal .modal-dialog {
+    max-width: 95vw; /* Увеличено с 90vw до 95vw */
+    width: 95vw;
+}
+
+.modal .modal-body {
+    max-height: 90vh; /* Увеличено с 85vh до 90vh */
+    overflow-y: auto;
+    padding: 20px;
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+}
+
+/* Цветовые акценты для разных брендов */
+#wolf-honey-tab .brand-header {
+    background: linear-gradient(135deg, #f5f5dc, #faf0e6);
+    border-color: #d2b48c;
+}
+
+#desnyansky-honey-tab .brand-header {
+    background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+    border-color: #4169e1;
+}
+
+#wolf-honey-tab .summary-value {
+    color: #8b4513;
+}
+
+#desnyansky-honey-tab .summary-value {
+    color: #4169e1;
+}
+
+#wolf-honey-tab .slider::-webkit-slider-thumb {
+    background: #8b4513;
+}
+
+#desnyansky-honey-tab .slider::-webkit-slider-thumb {
+    background: #4169e1;
+}

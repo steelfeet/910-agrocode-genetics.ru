@@ -1,0 +1,916 @@
+{% extends "base.html" %}
+
+{% block title %}Настройки игры - Пчелка Майя{% endblock %}
+
+{% block content %}
+<div class="settings-controls">
+    <h3 class="text-center">Настройки игры</h3>
+    
+    <button class="btn btn-primary" onclick="openSettingsModal()">
+        Открыть настройки
+    </button>
+    
+    <button class="btn btn-secondary" onclick="showSettingsInfo()">
+        Информация о настройках
+    </button>
+    
+    <button class="btn btn-secondary" onclick="window.location.href='/game/main'">
+        Основная игра
+    </button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Функция открытия модального окна настроек
+function openSettingsModal() {
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modal = modalOverlay.querySelector('.modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+    
+    // Устанавливаем класс для широкого модального окна
+    modal.classList.add('settings-modal');
+    
+    // Устанавливаем заголовок
+    modalTitle.textContent = 'Настройки пасеки';
+    
+    // Создаем содержимое модального окна
+    modalBody.innerHTML = getSettingsModalContent();
+    
+    // Показываем модальное окно
+    modalOverlay.classList.remove('hidden');
+    modalOverlay.classList.add('show');
+    
+    // Инициализируем обработчики событий в модальном окне
+    initializeSettingsModalHandlers();
+    
+    // Очищаем глобальную переменную после использования
+    if (window.selectedCityForSettings) {
+        delete window.selectedCityForSettings;
+    }
+}
+
+// Функция показа информации о настройках
+function showSettingsInfo() {
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modal = modalOverlay.querySelector('.modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+    
+    // Убираем класс широкого модального окна для информации
+    modal.classList.remove('settings-modal');
+    
+    modalTitle.textContent = 'О настройках игры';
+    modalBody.innerHTML = getSettingsInfoContent();
+    
+    modalOverlay.classList.remove('hidden');
+    modalOverlay.classList.add('show');
+}
+
+// Содержимое модального окна настроек
+function getSettingsModalContent() {
+    // Используем сохраненный город или значение из шаблона
+    const cityValue = window.selectedCityForSettings || '{{ user.city }}' || '';
+    
+    return `
+        <form id="settings-form" onsubmit="saveGameSettings(event)">
+            <div class="form-group">
+                <label for="city">Город:</label>
+                <div class="input-group">
+                    <input type="text" id="city" name="city" class="form-control" 
+                           value="${cityValue}" readonly>
+                    <button type="button" class="btn btn-outline-secondary" style="width: 25%; margin:0px;"
+                            onclick="openLocationModal()" id="select-location-btn">
+                        Выбрать место
+                    </button>
+                </div>
+                <small class="form-text">Город определяется по выбранному месту на карте</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="year">Первый год игры:</label>
+                <input type="number" id="year" name="year" class="form-control" 
+                       value="{{ user.year or 2015 }}" min="2000" max="2030">
+                <small class="form-text">Год начала игры (влияет на доступные технологии и условия)</small>
+            </div>
+            
+            <div class="game-preview">
+                <h4>Предварительный просмотр условий:</h4>
+                <div class="preview-cards">
+                    <div class="preview-card">
+                        <h5>Климат и взяток</h5>
+                        <div class="preview-stats">
+                            <div class="stat">
+                                <span class="stat-label">Базовый взяток:</span>
+                                <span class="stat-value" id="preview-nectar">15-20 мг/сутки</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Сезон цветения:</span>
+                                <span class="stat-value" id="preview-season">апрель-октябрь</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Основные медоносы:</span>
+                                <span class="stat-value" id="preview-plants">липа, акация, гречиха</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-card">
+                        <h5>Экономические условия</h5>
+                        <div class="preview-stats">
+                            <div class="stat">
+                                <span class="stat-label">Стартовый капитал:</span>
+                                <span class="stat-value">10,000 руб.</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Начальные улья:</span>
+                                <span class="stat-value">4 улья</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Средняя цена меда:</span>
+                                <span class="stat-value" id="preview-honey-price">400-600 руб/кг</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-card">
+                        <h5>Технологии ({{ user.year or 2015 }})</h5>
+                        <div class="preview-stats">
+                            <div class="stat">
+                                <span class="stat-label">Доступные инструменты:</span>
+                                <span class="stat-value">медогонка, воскотопка</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Банковские услуги:</span>
+                                <span class="stat-value">кредиты, депозиты</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Торговые площадки:</span>
+                                <span class="stat-value">Авито, местные рынки</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="advanced-options">
+                <h4>Дополнительные настройки:</h4>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="auto-save" checked>
+                        Автосохранение каждый день
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="weather-real" checked>
+                        Использовать реальные погодные данные
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="show-tutorials">
+                        Показывать обучающие подсказки
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="game-speed">Скорость игры:</label>
+                    <select id="game-speed" name="game-speed" class="form-control">
+                        <option value="slow">Медленно (1 день = 30 сек)</option>
+                        <option value="normal" selected>Нормально (1 день = 15 сек)</option>
+                        <option value="fast">Быстро (1 день = 5 сек)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    Сохранить и начать игру
+                </button>
+            </div>
+        </form>
+    `;
+}
+
+// Содержимое информационного окна
+function getSettingsInfoContent() {
+    return `
+        <div class="info-content">
+            <h4>О настройках игры</h4>
+            <p><strong>Город</strong> определяет климатические условия и доступные медоносы для вашей пасеки.</p>
+            
+            <p><strong>Год начала игры</strong> влияет на доступные технологии, цены и экономические условия.</p>
+            
+            <p>Вы сможете изменить некоторые настройки позже в меню игры.</p>
+            
+            <div class="tips-panel">
+                <h4>Советы для новичков</h4>
+                <div class="tips-list">
+                    <div class="tip">
+                        <strong>Местоположение</strong>
+                        <p>Выберите место с разнообразными медоносами для стабильного взятка.</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <strong>Стартовый год</strong>
+                        <p>Более ранние годы дают больше возможностей для развития, но меньше технологий.</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <strong>Подготовка</strong>
+                        <p>Изучите основы пчеловодства перед началом игры для лучших результатов.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Инициализация обработчиков событий в модальном окне настроек
+function initializeSettingsModalHandlers() {
+    const yearInput = document.getElementById('year');
+    if (yearInput) {
+        yearInput.addEventListener('change', function() {
+            updatePreview();
+        });
+    }
+    
+    // Инициализация предварительного просмотра
+    updatePreview();
+}
+
+// Сохранение настроек
+function saveGameSettings(event) {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const settings = {
+        city: formData.get('city'),
+        year: formData.get('year'),
+        autoSave: document.getElementById('auto-save').checked,
+        weatherReal: document.getElementById('weather-real').checked,
+        showTutorials: document.getElementById('show-tutorials').checked,
+        gameSpeed: formData.get('game-speed')
+    };
+    
+    // Сохраняем настройки
+    saveSettings(settings);
+}
+
+// Обновление предварительного просмотра
+function updatePreview() {
+    const year = parseInt(document.getElementById('year')?.value || 2015);
+    const city = document.getElementById('city')?.value || '';
+    
+    // Обновляем информацию о ценах в зависимости от года
+    const honeyPrice = getHoneyPriceByYear(year);
+    const priceElement = document.getElementById('preview-honey-price');
+    if (priceElement) {
+        priceElement.textContent = honeyPrice;
+    }
+    
+    // Обновляем информацию о сезоне
+    updateSeasonPreview(city);
+}
+
+// Функция открытия модального окна с картой
+function openLocationModal() {
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modal = modalOverlay.querySelector('.modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+    
+    // Устанавливаем класс для модального окна карты
+    modal.classList.add('location-modal');
+    
+    // Устанавливаем заголовок
+    modalTitle.textContent = 'Выбор места расположения пасеки';
+    
+    // Создаем содержимое модального окна с картой
+    modalBody.innerHTML = getLocationModalContent();
+    
+    // Показываем модальное окно
+    modalOverlay.classList.remove('hidden');
+    modalOverlay.classList.add('show');
+    
+    // Инициализируем карту
+    initializeLocationMap();
+}
+
+// Содержимое модального окна с картой
+function getLocationModalContent() {
+    return `
+        <div class="map-container">
+            <div id="location-map"></div>
+            
+            <div class="map-loading" id="map-loading" style="display: none;">
+                <div>Загрузка карты...</div>
+            </div>
+            
+            <div class="map-error" id="map-error" style="display: none;">
+                <div>Ошибка загрузки карты. Проверьте подключение к интернету.</div>
+            </div>
+            
+            <div class="map-controls">
+                <button type="button" class="btn btn-outline-secondary" onclick="useCurrentLocation()">
+                    Моё местоположение
+                </button>
+                <button type="button" class="btn btn-primary" onclick="confirmLocation()">
+                    Выбрать это место
+                </button>
+            </div>
+            
+            <div class="map-info">
+                <h5>Выберите место для пасеки</h5>
+                <div class="coordinates">
+                    <span>Широта: <span id="selected-lat">-</span></span>
+                    <span>Долгота: <span id="selected-lng">-</span></span>
+                </div>
+                <div class="address" id="selected-address">
+                    Кликните по карте для выбора места или используйте кнопку "Моё местоположение"
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Инициализация карты
+function initializeLocationMap() {
+    const loadingEl = document.getElementById('map-loading');
+    const errorEl = document.getElementById('map-error');
+    
+    // Показываем индикатор загрузки
+    loadingEl.style.display = 'block';
+    errorEl.style.display = 'none';
+    
+    // Проверяем, загружен ли API Яндекс.Карт
+    if (typeof ymaps === 'undefined') {
+        // Загружаем API Яндекс.Карт
+        const script = document.createElement('script');
+        script.src = 'https://api-maps.yandex.ru/2.1/?apikey=e6b34264-72ad-4e9b-9c46-548063340836&lang=ru_RU';
+        script.onload = function() {
+            // API загружен, инициализируем карту
+            loadingEl.style.display = 'none';
+            setTimeout(initMap, 100);
+        };
+        script.onerror = function() {
+            // Ошибка загрузки API
+            loadingEl.style.display = 'none';
+            errorEl.style.display = 'block';
+        };
+        document.head.appendChild(script);
+    } else {
+        // API уже загружен, инициализируем карту
+        loadingEl.style.display = 'none';
+        initMap();
+    }
+}
+
+// Инициализация карты после загрузки API
+function initMap() {
+    const loadingEl = document.getElementById('map-loading');
+    const errorEl = document.getElementById('map-error');
+    
+    try {
+        ymaps.ready(function() {
+            // Создание карты
+            window.locationMap = new ymaps.Map('location-map', {
+                center: [55.751244, 37.618423], // Москва по умолчанию
+                zoom: 10
+            }, {
+                searchControlProvider: 'yandex#search'
+            });
+            
+            // Создание перетаскиваемой метки
+            window.locationPlacemark = new ymaps.Placemark([55.751244, 37.618423], {
+                iconContent: "Место для пасеки",
+                hintContent: "Перетащите метку или кликните по карте"
+            }, {
+                preset: 'islands#StretchyIcon',
+                iconColor: '#00ff00',
+                draggable: true
+            });
+            
+            // Добавляем метку на карту
+            window.locationMap.geoObjects.add(window.locationPlacemark);
+            
+            // Обработчик клика по карте
+            window.locationMap.events.add('click', function(e) {
+                const coords = e.get('coords');
+                selectLocation(coords);
+            });
+            
+            // Обработчик перетаскивания метки
+            window.locationPlacemark.events.add('dragend', function(e) {
+                const coords = e.get('target').geometry.getCoordinates();
+                selectLocation(coords);
+            });
+            
+            // Если уже есть выбранное место, используем его
+            const currentCity = document.getElementById('city').value;
+            if (currentCity) {
+                // Пытаемся найти координаты города
+                ymaps.geocode(currentCity).then(function(res) {
+                    const firstGeoObject = res.geoObjects.get(0);
+                    if (firstGeoObject) {
+                        const coords = firstGeoObject.geometry.getCoordinates();
+                        selectLocation(coords);
+                        window.locationMap.setCenter(coords, 12);
+                    }
+                });
+            }
+            
+            // Скрываем индикатор загрузки
+            loadingEl.style.display = 'none';
+        });
+    } catch (error) {
+        console.error('Ошибка инициализации карты:', error);
+        loadingEl.style.display = 'none';
+        errorEl.style.display = 'block';
+    }
+}
+
+// Выбор места на карте
+function selectLocation(coords) {
+    if (window.locationPlacemark) {
+        window.locationPlacemark.geometry.setCoordinates(coords);
+    }
+    
+    // Обновляем отображение координат
+    document.getElementById('selected-lat').textContent = coords[0].toFixed(6);
+    document.getElementById('selected-lng').textContent = coords[1].toFixed(6);
+    
+    // Получаем адрес по координатам
+    ymaps.geocode(coords).then(function(res) {
+        const firstGeoObject = res.geoObjects.get(0);
+        if (firstGeoObject) {
+            const address = firstGeoObject.getAddressLine();
+            document.getElementById('selected-address').textContent = address;
+        }
+    });
+}
+
+// Использование текущего местоположения пользователя
+function useCurrentLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                const coords = [
+                    position.coords.latitude,
+                    position.coords.longitude
+                ];
+                selectLocation(coords);
+                if (window.locationMap) {
+                    window.locationMap.setCenter(coords, 15);
+                }
+            },
+            function(error) {
+                alert('Не удалось получить ваше местоположение. Попробуйте выбрать место вручную.');
+            }
+        );
+    } else {
+        alert('Геолокация не поддерживается вашим браузером.');
+    }
+}
+
+// Подтверждение выбора места
+function confirmLocation() {
+    const lat = document.getElementById('selected-lat').textContent;
+    const lng = document.getElementById('selected-lng').textContent;
+    const address = document.getElementById('selected-address').textContent;
+    
+    if (lat === '-' || lng === '-') {
+        alert('Пожалуйста, выберите место на карте.');
+        return;
+    }
+    
+    // Извлекаем город из адреса
+    const city = extractCityFromAddress(address);
+    
+    // Сохраняем выбранный город в глобальной переменной
+    window.selectedCityForSettings = city;
+    
+    // Закрываем модальное окно с картой
+    closeModal();
+    
+    // Показываем модальное окно настроек с обновленным городом
+    setTimeout(() => {
+        openSettingsModal();
+    }, 300);
+    
+    console.log('Город выбран и сохранен:', city);
+}
+
+// Извлечение города из адреса
+function extractCityFromAddress(address) {
+    // Простое извлечение города - берем первую часть адреса до запятой
+    const parts = address.split(',');
+    return parts[0].trim() || 'Неизвестный город';
+}
+
+// Закрытие модального окна
+function closeModal() {
+    const modalOverlay = document.getElementById('modal-overlay');
+    modalOverlay.classList.remove('show');
+    modalOverlay.classList.add('hidden');
+    
+    // Очищаем классы модального окна
+    const modal = modalOverlay.querySelector('.modal');
+    modal.classList.remove('location-modal');
+    
+    // Очищаем содержимое
+    const modalBody = document.getElementById('modal-body');
+    modalBody.innerHTML = '';
+}
+
+function getHoneyPriceByYear(year) {
+    if (year <= 1990) return "50-100 руб/кг";
+    if (year <= 2000) return "100-200 руб/кг";
+    if (year <= 2010) return "200-350 руб/кг";
+    if (year <= 2020) return "350-500 руб/кг";
+    return "500-800 руб/кг";
+}
+
+function updateSeasonPreview(city) {
+    const seasonMap = {
+        'Москва': 'май-сентябрь',
+        'Сочи': 'апрель-октябрь',
+        'Новосибирск': 'май-август',
+        'Екатеринбург': 'май-сентябрь'
+    };
+    
+    const season = seasonMap[city] || 'май-сентябрь';
+    const seasonElement = document.getElementById('preview-season');
+    if (seasonElement) {
+        seasonElement.textContent = season;
+    }
+}
+</script>
+
+<style>
+/* Стили для упрощенной страницы настроек с кнопками */
+.settings-controls {
+    padding: 20px;
+    text-align: center;
+}
+
+.settings-controls h3 {
+    color: #8B4513;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.settings-controls .btn {
+    margin: 15px auto;
+    max-width: 300px;
+}
+
+/* Стили для широкого модального окна настроек */
+.settings-modal .modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.settings-modal .settings-form {
+    padding: 20px;
+}
+
+.settings-modal .settings-form h3 {
+    color: #8B4513;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+.settings-modal .form-group {
+    margin-bottom: 20px;
+}
+
+.settings-modal .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2F4F4F;
+    font-size: 16px;
+}
+
+.settings-modal .form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    font-size: 16px;
+    background: rgba(255,255,255,0.9);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.settings-modal .form-control:focus {
+    outline: none;
+    border-color: #8B4513;
+    box-shadow: 0 0 10px rgba(139, 69, 19, 0.3);
+}
+
+.settings-modal .form-control[readonly] {
+    background: rgba(200, 200, 200, 0.5);
+    cursor: not-allowed;
+}
+
+.settings-modal .input-group {
+    display: flex;
+    gap: 0;
+}
+
+.settings-modal .input-group .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+}
+
+.settings-modal .input-group .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 1px solid #D2691E;
+    white-space: nowrap;
+}
+
+/* Стили для модального окна с картой */
+.location-modal .modal-body {
+    padding: 0;
+    height: 70vh;
+}
+
+.location-modal .map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.location-modal #location-map {
+    width: 100%;
+    height: 100%;
+    border-radius: 0 0 8px 8px;
+}
+
+.location-modal .map-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.location-modal .map-controls .btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    min-width: 100px;
+}
+
+.location-modal .map-info {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    padding: 15px;
+    z-index: 1000;
+}
+
+.location-modal .map-info h5 {
+    color: #8B4513;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.location-modal .map-info .coordinates {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.location-modal .map-info .address {
+    color: #2F4F4F;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.location-modal .map-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    color: #8B4513;
+}
+
+.location-modal .map-error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #dc3545;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    color: #dc3545;
+}
+
+.settings-modal .form-text {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+}
+
+.settings-modal .game-preview {
+    background: rgba(255,255,255,0.6);
+    border: 2px solid #D2691E;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.settings-modal .game-preview h4 {
+    color: #8B4513;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.settings-modal .preview-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.settings-modal .preview-card {
+    background: rgba(255,255,255,0.8);
+    border: 1px solid #D2691E;
+    border-radius: 8px;
+    padding: 15px;
+    transition: transform 0.3s ease;
+}
+
+.settings-modal .preview-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.settings-modal .preview-card h5 {
+    color: #8B4513;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: center;
+    border-bottom: 1px solid #D2691E;
+    padding-bottom: 8px;
+}
+
+.settings-modal .preview-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settings-modal .stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.settings-modal .stat-label {
+    font-size: 12px;
+    color: #2F4F4F;
+}
+
+.settings-modal .stat-value {
+    font-weight: bold;
+    color: #8B4513;
+    font-size: 12px;
+}
+
+.settings-modal .advanced-options {
+    background: rgba(255,255,255,0.6);
+    border: 2px solid #D2691E;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.settings-modal .advanced-options h4 {
+    color: #8B4513;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.settings-modal .advanced-options .form-group {
+    margin-bottom: 12px;
+}
+
+.settings-modal .advanced-options label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.settings-modal .advanced-options input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.settings-modal .form-actions {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #D2691E;
+}
+
+.settings-modal .info-content {
+    padding: 20px;
+}
+
+.settings-modal .info-content h4 {
+    color: #8B4513;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.settings-modal .info-content p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+    color: #2F4F4F;
+}
+
+.settings-modal .tips-panel {
+    background: rgba(245, 230, 211, 0.9);
+    border: 2px solid #8B4513;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.settings-modal .tips-panel h4 {
+    color: #8B4513;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.settings-modal .tip {
+    background: rgba(255,255,255,0.6);
+    border: 1px solid #D2691E;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.settings-modal .tip strong {
+    color: #8B4513;
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.settings-modal .tip p {
+    margin: 0;
+    color: #2F4F4F;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .settings-modal .preview-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .settings-modal .form-actions {
+        flex-direction: column;
+    }
+    
+    .settings-modal .preview-card {
+        min-width: auto;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,335 @@
+/* Стили для системы ветра и погоды */
+
+/* Переменные для динамических эффектов ветра */
+.tree-crown {
+    --wind-intensity: 0;
+}
+
+/* Эффекты ветра на деревья */
+.wind-affected {
+    transition: all 0.5s ease;
+}
+
+/* Усиленное раскачивание деревьев под ветром относительно основания */
+.wind-affected.tree-crown {
+    animation-duration: calc(6s / (1 + var(--wind-intensity))) !important;
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+    transform-origin: 50% 100% !important; /* Всегда раскачивание от основания */
+}
+
+/* CSS переменные для раскачивания от основания */
+.wind-affected.tree-crown {
+    --sway-amplitude: calc(1deg + (var(--wind-intensity) * 3deg));
+    --sway-offset: calc(var(--wind-intensity) * 4px);
+}
+
+/* Общие стили для раскачивания всех деревьев от основания */
+.tree-crown {
+    transform-origin: 50% 100% !important; /* Основание дерева как точка вращения */
+}
+
+/* Принудительное применение transform-origin для всех деревьев */
+.apple-tree .tree-crown,
+.cherry-tree .tree-crown,
+.pear-tree .tree-crown {
+    transform-origin: 50% 100% !important;
+}
+
+/* Эффекты для разных уровней силы ветра */
+.wind-force-1,
+.wind-force-2,
+.wind-force-3 {
+    /* Слабый ветер - минимальные эффекты */
+    filter: brightness(1.02) contrast(1.01);
+}
+
+.wind-force-4,
+.wind-force-5,
+.wind-force-6 {
+    /* Умеренный ветер - заметные эффекты */
+    filter: brightness(1.05) contrast(1.02) saturate(1.1);
+}
+
+.wind-force-7,
+.wind-force-8 {
+    /* Сильный ветер - выраженные эффекты */
+    filter: brightness(1.08) contrast(1.05) saturate(1.15);
+}
+
+.wind-force-9,
+.wind-force-10 {
+    /* Очень сильный ветер - максимальные эффекты */
+    filter: brightness(1.1) contrast(1.08) saturate(1.2);
+    animation-duration: calc(4s / (1 + var(--wind-intensity))) !important;
+}
+
+/* Визуальные индикаторы силы ветра в интерфейсе */
+.wind-info {
+    position: relative;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+/* Стили для информации о погоде */
+.weather-info {
+    position: relative;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    font-weight: bold;
+}
+
+/* Стили для разных типов погоды */
+.weather-sunny {
+    background: rgba(255, 215, 0, 0.3) !important;
+    border-color: rgba(255, 140, 0, 0.5) !important;
+    color: #8B4513 !important;
+    text-shadow: 0 0 2px rgba(255, 215, 0, 0.8);
+}
+
+.weather-cloudy {
+    background: rgba(128, 128, 128, 0.3) !important;
+    border-color: rgba(105, 105, 105, 0.5) !important;
+    color: #2F2F2F !important;
+    text-shadow: 0 0 2px rgba(128, 128, 128, 0.8);
+}
+
+.weather-rainy {
+    background: rgba(70, 130, 180, 0.3) !important;
+    border-color: rgba(25, 25, 112, 0.5) !important;
+    color: #191970 !important;
+    text-shadow: 0 0 2px rgba(70, 130, 180, 0.8);
+}
+
+/* Дополнительные облака */
+.cloud-extra {
+    z-index: 1;
+    opacity: 0.8;
+    filter: blur(0.5px);
+}
+
+.cloud-extra:nth-child(odd) {
+    opacity: 0.7;
+    filter: blur(1px);
+}
+
+.cloud-extra:nth-child(even) {
+    opacity: 0.9;
+    filter: blur(0.3px);
+}
+
+/* Эффект дождя */
+.rain-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 15;
+    overflow: hidden;
+}
+
+.raindrop {
+    position: absolute;
+    background: linear-gradient(to bottom, 
+        rgba(135, 206, 235, 0.8) 0%, 
+        rgba(70, 130, 180, 0.9) 50%, 
+        rgba(25, 25, 112, 1) 100%);
+    width: 2px;
+    height: 20px;
+    border-radius: 1px;
+    animation: rainfall linear infinite;
+}
+
+@keyframes rainfall {
+    0% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+/* Эффект ряби на воде при дождне */
+.rain-ripple {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(135, 206, 235, 0.1) 0px,
+        rgba(135, 206, 235, 0.1) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    animation: ripple-effect 0.5s linear infinite;
+}
+
+@keyframes ripple-effect {
+    0% {
+        transform: translateX(-10px);
+    }
+    100% {
+        transform: translateX(10px);
+    }
+}
+
+.wind-force-1,
+.wind-force-2,
+.wind-force-3 {
+    background: rgba(144, 238, 144, 0.3) !important;
+    border-color: rgba(34, 139, 34, 0.5) !important;
+    color: #2F4F4F !important;
+}
+
+.wind-force-4,
+.wind-force-5,
+.wind-force-6 {
+    background: rgba(255, 215, 0, 0.3) !important;
+    border-color: rgba(255, 140, 0, 0.5) !important;
+    color: #8B4513 !important;
+}
+
+.wind-force-7,
+.wind-force-8 {
+    background: rgba(255, 165, 0, 0.3) !important;
+    border-color: rgba(255, 69, 0, 0.5) !important;
+    color: #8B0000 !important;
+    font-weight: bold !important;
+}
+
+.wind-force-9,
+.wind-force-10 {
+    background: rgba(255, 0, 0, 0.3) !important;
+    border-color: rgba(139, 0, 0, 0.5) !important;
+    color: #4B0000 !important;
+    font-weight: bold !important;
+    text-shadow: 0 0 3px rgba(255, 0, 0, 0.5);
+}
+
+/* Эффекты ветра на пчел */
+.bee-flight {
+    transition: transform 0.2s ease;
+}
+
+.bee-flight.wind-affected {
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.6));
+}
+
+/* Анимация ветра для листьев и других элементов */
+.wind-effect {
+    animation: wind-sway 3s ease-in-out infinite;
+}
+
+@keyframes wind-sway {
+    0%, 100% { 
+        transform: translateX(0px) rotate(0deg);
+    }
+    25% { 
+        transform: translateX(calc(var(--wind-intensity) * 2px)) rotate(calc(var(--wind-intensity) * 1deg));
+    }
+    50% { 
+        transform: translateX(calc(var(--wind-intensity) * 1px)) rotate(calc(var(--wind-intensity) * 0.5deg));
+    }
+    75% { 
+        transform: translateX(calc(var(--wind-intensity) * -1px)) rotate(calc(var(--wind-intensity) * -0.5deg));
+    }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .wind-info {
+        font-size: 12px;
+        padding: 3px 6px;
+    }
+    
+    .wind-affected.tree-crown {
+        animation-duration: calc(8s / (1 + var(--wind-intensity))) !important;
+    }
+}
+
+/* Эффекты для разных направлений ветра */
+.wind-direction-north,
+.wind-direction-northwest,
+.wind-direction-northeast {
+    /* Северные направления - ветер справа налево */
+    animation-direction: reverse;
+}
+
+.wind-direction-south,
+.wind-direction-southwest,
+.wind-direction-southeast {
+    /* Южные направления - ветер слева направо */
+    animation-direction: normal;
+}
+
+/* Дополнительные визуальные эффекты */
+.wind-indicator {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.8), transparent);
+    border-radius: 50%;
+    animation: wind-pulse 2s ease-in-out infinite;
+}
+
+@keyframes wind-pulse {
+    0%, 100% { 
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+/* Стили для интенсивности ветра */
+.wind-intensity-low {
+    --wind-intensity: 0.2;
+}
+
+.wind-intensity-medium {
+    --wind-intensity: 0.5;
+}
+
+.wind-intensity-high {
+    --wind-intensity: 0.8;
+}
+
+.wind-intensity-very-high {
+    --wind-intensity: 1.0;
+}
+
+/* Эффекты для сезонов с ветром */
+.spring.wind-affected .tree-crown,
+.summer.wind-affected .tree-crown {
+    filter: brightness(calc(1 + var(--wind-intensity) * 0.1)) 
+           saturate(calc(1 + var(--wind-intensity) * 0.2));
+}
+
+.autumn.wind-affected .tree-crown {
+    filter: brightness(calc(1 - var(--wind-intensity) * 0.1)) 
+           saturate(calc(1 + var(--wind-intensity) * 0.3));
+}
+
+.winter.wind-affected .tree-crown {
+    filter: brightness(calc(0.8 + var(--wind-intensity) * 0.1));
+}
+
+/* Плавные переходы для изменений ветра */
+.wind-transition {
+    transition: all 1s ease-in-out;
+}

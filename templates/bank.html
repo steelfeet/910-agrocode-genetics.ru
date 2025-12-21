@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+
+{% block title %}Банк - Пчелка Майя{% endblock %}
+
+{% block content %}
+<div class="bank-interface">
+    <div class="bank-scene">
+        <div class="bank-counter">
+            <div class="banker">
+                <div class="banker-avatar"></div>
+                <div class="banker-name">Сотрудник банка</div>
+            </div>
+            <div class="bank-documents">
+                <div class="document"></div>
+                <div class="computer"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bank-controls">
+        <button class="btn btn-secondary" onclick="showModal('Мои кредиты', getCreditsList())">
+            Мои кредиты
+        </button>
+        
+        <button class="btn btn-secondary" onclick="showModal('Рефинансирование', getRefinancingContent())">
+            Рефинансирование (TODO)
+        </button>
+        
+        <button class="btn btn-primary" onclick="showModal('Выбор кредита', getCreditSelection())">
+            Взять кредит
+        </button>
+        
+        <button class="btn btn-primary" onclick="showModal('Погашение кредита', getRepaymentForm())">
+            Отдать кредит
+        </button>
+        
+        <button class="btn btn-danger" onclick="showModal('Банкротство', getBankruptcyContent())">
+            Банкротство (TODO)
+        </button>
+        
+        <button class="btn btn-secondary" onclick="window.location.href='/game/main'">
+            Назад
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function getCreditsList() {
+    let content = '<h4>Мои кредиты:</h4>';
+    
+    {% for credit in credits %}
+    content += `
+        <div class="credit-item">
+            <div class="credit-info">
+                <strong>{{ credit.bank.name }}</strong><br>
+                Сумма: {{ credit.amount }} руб.<br>
+                Ставка: {{ credit.interest_rate }}%<br>
+                Остаток: {{ credit.remaining_amount }} руб.<br>
+                Дата выдачи: {{ credit.created_date }}
+            </div>
+            <div class="credit-status">
+                {{ 'Активный' if credit.is_active else 'Погашен' }}
+            </div>
+        </div>
+    `;
+    {% else %}
+    content += '<p>У вас нет активных кредитов.</p>';
+    {% endfor %}
+    
+    return content;
+}
+
+function getRefinancingContent() {
+    return `
+        <h4>Рефинансирование кредита</h4>
+        <p>Функция в разработке.</p>
+        <p>В будущем здесь можно будет:</p>
+        <ul>
+            <li>Снизить процентную ставку</li>
+            <li>Увеличить срок кредита</li>
+            <li>Изменить условия погашения</li>
+        </ul>
+    `;
+}
+
+function getCreditSelection() {
+    let content = '<h4>Выберите кредит:</h4><div class="credit-options">';
+    
+    {% for bank in banks %}
+    content += `
+        <div class="credit-option">
+            <div class="bank-info">
+                <strong>{{ bank.name }}</strong><br>
+                Базовая ставка: {{ bank.base_rate }}%
+            </div>
+            <div class="credit-form">
+                <input type="number" class="form-control" placeholder="Сумма кредита" 
+                       id="credit-amount-{{ bank.id }}" min="10000" max="1000000" step="1000">
+                <button class="btn btn-sm btn-primary" 
+                        onclick="takeCredit({{ bank.id }}, document.getElementById('credit-amount-{{ bank.id }}').value)">
+                    Взять кредит
+                </button>
+            </div>
+        </div>
+    `;
+    {% endfor %}
+    
+    content += '</div>';
+    return content;
+}
+
+function getRepaymentForm() {
+    let content = '<h4>Погашение кредита:</h4>';
+    
+    {% for credit in credits if credit.is_active %}
+    content += `
+        <div class="repayment-form">
+            <div class="credit-summary">
+                <strong>{{ credit.bank.name }}</strong><br>
+                Остаток: {{ credit.remaining_amount }} руб.
+            </div>
+            <div class="repayment-input">
+                <input type="number" class="form-control" 
+                       placeholder="Сумма погашения" 
+                       id="repay-amount-{{ credit.id }}" 
+                       min="100" max="{{ credit.remaining_amount }}" step="100">
+                <button class="btn btn-sm btn-primary" 
+                        onclick="repayCredit({{ credit.id }}, document.getElementById('repay-amount-{{ credit.id }}').value)">
+                    Погасить
+                </button>
+            </div>
+        </div>
+    `;
+    {% else %}
+    content += '<p>У вас нет активных кредитов для погашения.</p>';
+    {% endfor %}
+    
+    return content;
+}
+
+function getBankruptcyContent() {
+    return `
+        <h4>Процедура банкротства</h4>
+        <div class="bankruptcy-warning">
+            <p><strong>Внимание!</strong> Банкротство приведет к:</p>
+            <ul>
+                <li>Потере всех активов</li>
+                <li>Обнулению счета</li>
+                <li>Возврату к начальному состоянию игры</li>
+                <li>Временной блокировке возможности брать кредиты</li>
+            </ul>
+            <p>Вы уверены, что хотите продолжить?</p>
+            <button class="btn btn-danger" onclick="confirmBankruptcy()">
+                Подтвердить банкротство
+            </button>
+        </div>
+    `;
+}
+
+function confirmBankruptcy() {
+    // Логика банкротства
+    showNotification('Банкротство - функция в разработке', 'info');
+    closeModal();
+}
+
+function updateCreditInfo() {
+    // Обновление информации о кредитах
+    location.reload();
+}
+</script>
+
+<style>
+.bank-interface {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.bank-scene {
+    flex: 1;
+    background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #DEB887 100%);
+    position: relative;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.bank-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: flex-end;
+    gap: 30px;
+}
+
+.banker {
+    text-align: center;
+    color: white;
+}
+
+.banker-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    border: 3px solid #8B4513;
+}
+
+.banker-name {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.bank-documents {
+    display: flex;
+    gap: 10px;
+}
+
+.document {
+    width: 40px;
+    height: 30px;
+    background: white;
+    border: 1px solid #8B4513;
+    border-radius: 3px;
+}
+
+.computer {
+    width: 50px;
+    height: 35px;
+    background: linear-gradient(45deg, #2F4F4F, #696969);
+    border-radius: 5px;
+    border: 2px solid #8B4513;
+}
+
+.bank-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.credit-item, .credit-option, .repayment-form {
+    background: rgba(255,255,255,0.6);
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.credit-info, .bank-info {
+    flex: 1;
+}
+
+.credit-status {
+    font-weight: bold;
+    color: #8B4513;
+}
+
+.credit-form, .repayment-input {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.repayment-form {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.credit-summary {
+    font-weight: bold;
+    color: #2F4F4F;
+}
+
+.bankruptcy-warning {
+    background: rgba(255,0,0,0.1);
+    border: 2px solid #DC143C;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.bankruptcy-warning ul {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.bankruptcy-warning li {
+    margin: 5px 0;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,244 @@
+/* Стили для модального окна коллабораций */
+
+/* Контейнер коллабораций */
+.collaboration-summary {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.summary-row {
+    font-size: 16px;
+    color: #495057;
+}
+
+.summary-row strong {
+    color: #212529;
+}
+
+/* Таблица коллабораций */
+.collaboration-table {
+    max-height: 60vh;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+/* Заголовок таблицы */
+.table-header {
+    display: flex;
+    background-color: #e9ecef;
+    border-bottom: 2px solid #adb5bd;
+    font-weight: 600;
+    color: #495057;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table-header > div {
+    padding: 12px 15px;
+    border-right: 1px solid #dee2e6;
+}
+
+.table-header > div:last-child {
+    border-right: none;
+}
+
+/* Секции таблицы */
+.table-section {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.table-section:last-child {
+    border-bottom: none;
+}
+
+.section-title {
+    background-color: #f1f3f4;
+    padding: 10px 15px;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 1px solid #dee2e6;
+    margin: 0;
+}
+
+/* Строки таблицы */
+.table-row {
+    display: flex;
+    border-bottom: 1px solid #f1f3f4;
+    transition: background-color 0.2s ease;
+}
+
+.table-row:hover {
+    background-color: #f8f9fa;
+}
+
+.table-row:last-child {
+    border-bottom: none;
+}
+
+/* Колонки таблицы */
+.col-description {
+    flex: 2;
+    padding: 12px 15px;
+    border-right: 1px solid #f1f3f4;
+    color: #495057;
+}
+
+.col-cost {
+    flex: 1;
+    padding: 12px 15px;
+    border-right: 1px solid #f1f3f4;
+    text-align: center;
+}
+
+.col-effort {
+    flex: 0.8;
+    padding: 12px 15px;
+    text-align: center;
+    color: #6c757d;
+}
+
+/* Чекбоксы и лейблы */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0;
+    font-weight: 500;
+    color: #495057;
+    transition: color 0.2s ease;
+}
+
+.checkbox-label:hover {
+    color: #007bff;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"]:checked + span,
+.checkbox-label input[type="checkbox"]:checked {
+    color: #007bff;
+    font-weight: 600;
+}
+
+/* Специальные стили для прочерков */
+.col-effort span:only-child {
+    color: #adb5bd;
+    font-style: italic;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .collaboration-table {
+        max-height: 50vh;
+        font-size: 14px;
+    }
+    
+    .table-header > div,
+    .table-row > div {
+        padding: 8px 10px;
+    }
+    
+    .col-description {
+        flex: 1.5;
+    }
+    
+    .col-cost {
+        flex: 1;
+    }
+    
+    .col-effort {
+        flex: 0.6;
+    }
+    
+    .checkbox-label {
+        font-size: 13px;
+    }
+    
+    .summary-row {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .collaboration-table {
+        max-height: 40vh;
+        font-size: 12px;
+    }
+    
+    .table-header > div,
+    .table-row > div {
+        padding: 6px 8px;
+    }
+    
+    .section-title {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+    
+    .checkbox-label {
+        font-size: 12px;
+    }
+    
+    .checkbox-label input[type="checkbox"] {
+        margin-right: 5px;
+        transform: scale(1);
+    }
+}
+
+/* Стили для модального окна */
+.modal-lg .collaboration-table {
+    max-width: 100%;
+}
+
+.modal-body .collaboration-table {
+    margin: 0;
+}
+
+/* Анимации */
+.table-row {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Стили для выделения выбранных элементов */
+.table-row:has(input[type="checkbox"]:checked) {
+    background-color: #e3f2fd;
+    border-left: 4px solid #2196f3;
+}
+
+.table-row:has(input[type="checkbox"]:checked) .col-description {
+    color: #1976d2;
+    font-weight: 500;
+}
+
+/* Стили для итоговых значений */
+#total-cost {
+    color: #28a745;
+    font-weight: 600;
+}
+
+#total-effort {
+    color: #fd7e14;
+    font-weight: 600;
+}

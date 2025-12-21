@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Пчелка Майя - Сам себе пасечник{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/weather.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sales-forecast.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/collaboration.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Подключение Chart.js для интерактивных графиков -->
+    <script src="/static/js/chart.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Фон с поляной -->
+        <div class="background">
+            <!-- Небо с солнцем и облаками -->
+            <div class="sky">
+                <!-- Солнце -->
+                <div class="sun"></div>
+                
+                <!-- Облака -->
+                <div class="cloud cloud-1"></div>
+                <div class="cloud cloud-2"></div>
+                <div class="cloud cloud-3"></div>
+            </div>
+            
+            <!-- Эффект затемнения при затмении солнца облаками -->
+            <div class="eclipse-overlay"></div>
+            
+            <div class="field">
+                <!-- Деревья -->
+                <div class="tree apple-tree">
+                    <div class="tree-crown"></div>
+                    <div class="tree-trunk"></div>
+                </div>
+                <div class="tree cherry-tree">
+                    <div class="tree-crown"></div>
+                    <div class="tree-trunk"></div>
+                </div>
+                <div class="tree pear-tree">
+                    <div class="tree-crown"></div>
+                    <div class="tree-trunk"></div>
+                </div>
+                
+                <!-- Улья -->
+                <div class="hives-container">
+                    {% for i in range(hives_count or 4) %}
+                    <div class="hive" data-hive-id="{{ i + 1 }}">
+                        <div class="hive-body"></div>
+                        <div class="hive-entrance"></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Интерфейс управления -->
+        <div class="ui-panel">
+            <div class="ui-content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+        
+        <!-- Информационная панель -->
+        <div class="info-panel">
+            <div class="game-info">
+                <span class="date">Дата: {{ user.game_date if user else '2015-04-01' }}</span>
+                <span class="debt">Кредит: {{ user.debt if user else 0 }}</span>
+                <span class="cash">Наличные: {{ user.cash if user else 10000 }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальные окна -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Заголовок</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                Содержимое модального окна
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/weather.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sales-forecast.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

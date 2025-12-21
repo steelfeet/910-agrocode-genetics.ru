@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в игру - Пчелка Майя{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    {% if not game_state.authenticated %}
+    <!-- Форма входа/регистрации для новых пользователей -->
+    <div class="auth-form">
+        <h2 class="text-center mb-20">Зарегистрироваться:</h2>
+        
+        <div class="login-buttons" style="display: none;">
+            <button class="btn btn-primary" onclick="showModal('Регистрация', getRegistrationForm())">
+                Зарегистрироваться
+            </button>
+            <button class="btn btn-secondary" onclick="showModal('Вход', getLoginForm())">
+                Войти
+            </button>
+        </div>
+    </div>
+    
+    <!-- Социальная аутентификация -->
+    <div class="social-auth">
+        <h3 class="text-center">Войти через:</h3>
+        <div class="social-buttons">
+            <button class="btn btn-secondary" onclick="showNotification('Функция в разработке', 'info')">
+                VK
+            </button>
+            <button class="btn btn-secondary" onclick="showNotification('Функция в разработке', 'info')">
+                Телеграм
+            </button>
+            <button class="btn btn-secondary" onclick="showNotification('Функция в разработке', 'info')">
+                Почта
+            </button>
+        </div>
+    </div>
+    
+    {% else %}
+    <!-- Кнопки управления для залогиненных пользователей -->
+    <div class="game-buttons">
+        {% if not game_state.hasGame %}
+        <button class="btn btn-primary" onclick="startNewGame()">
+            Новая игра
+        </button>
+        {% else %}
+        <button class="btn btn-primary" onclick="window.location.href='/game/main'">
+            Продолжить
+        </button>
+        {% endif %}
+        
+        <button class="btn btn-secondary" onclick="showModal('Статистика', getStatsContent())">
+            Статистика
+        </button>
+        
+        <button class="btn btn-secondary" onclick="showModal('Настройки', getSettingsContent())">
+            Настройки
+        </button>
+        
+        <button class="btn btn-danger" onclick="window.location.href='/auth/logout'">
+            Выход
+        </button>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function getRegistrationForm() {
+    return `
+        <form onsubmit="handleRegistration(event)">
+            <div class="form-group">
+                <label>Имя пользователя:</label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" class="form-control" name="email" required>
+            </div>
+            <div class="form-group">
+                <label>Пароль:</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        </form>
+    `;
+}
+
+function getLoginForm() {
+    return `
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label>Имя пользователя:</label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>Пароль:</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+    `;
+}
+
+function getStatsContent() {
+    return `
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Дней в игре</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Ульев</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Пчел</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Меда собрано</div>
+            </div>
+        </div>
+        <p class="text-center mt-20">Статистика будет доступна после начала игры.</p>
+    `;
+}
+
+function getSettingsContent() {
+    return `
+        <div class="form-group">
+            <label>Громкость звуков:</label>
+            <input type="range" class="form-control" min="0" max="100" value="50">
+        </div>
+        <div class="form-group">
+            <label>Скорость анимации:</label>
+            <select class="form-control">
+                <option value="slow">Медленно</option>
+                <option value="normal" selected>Нормально</option>
+                <option value="fast">Быстро</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" checked> Показывать подсказки
+            </label>
+        </div>
+        <button class="btn btn-primary">Сохранить настройки</button>
+    `;
+}
+
+function handleRegistration(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    
+    registerUser(
+        formData.get('username'),
+        formData.get('email'),
+        formData.get('password')
+    );
+}
+
+function handleLogin(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    
+    loginUser(
+        formData.get('username'),
+        formData.get('password')
+    );
+}
+</script>
+{% endblock %}
